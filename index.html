@@ -1,10 +1,51 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <title></title>
-    </head>
-    <body>
-        hello
-    </body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="font.css" />
+    <title>서강대학교 공학부 신문고</title>
+    <script
+      src="https://kit.fontawesome.com/2d323a629b.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="mobile_menu.js" defer></script>
+  </head>
+  <body>
+    <!-- Nav container -->
+    <nav class="navbar">
+      <!-- Logo with text -->
+      <div class="navbar__logo">
+        <ul class="navbar___logo">
+          <li><a href="./index.html"><img src="./logo.png" alt="logo" width="50px" class="logo"></a></li>
+          <li><a href="./index.html" class="sogang">서강대학교<br>공학부 신문고</a></li>
+        </ul>
+      </div>
+      <!-- Menu -->
+      <ul class="navbar__menu">
+        <li><a href="./notice">공지사항</a></li>
+        <li><a href="./write">글쓰기</a></li>
+        <li><a href="./board">자유게시판</a></li>
+        <li><a href="./mypage">마이페이지</a></li>
+      </ul>
+      <!-- Icons -->
+      <ul class="navbar__icons">
+        <li><a href="./login">로그인</a></li>
+        <li><a href="./register">회원가입</a></li>
+      </ul>
+      <!-- Toggle button -->
+      <a href="#" class="navbar__toggleBtn">
+        <i class="fas fa-bars"></i>
+      </a>
+    </nav>
+
+
+
+    <div class="ad">
+      <img src="./event.jpg" alt="" class="ad">
+    </div>
+
+
+  </body>
 </html>
