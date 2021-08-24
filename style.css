@@ -46,6 +46,7 @@ a {
   height:80px;
 }
 
+
 /* Logo with text */
 .navbar__logo {
   font-size: 20px;
@@ -121,6 +122,7 @@ a {
   .navbar__menu a {
     /* Fill in an entire line so that user can click on any space */
     display: block;
+    padding: 10px 0;
   }
   .navbar__logo{
     height:50px;
