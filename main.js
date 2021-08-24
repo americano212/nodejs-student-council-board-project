@@ -11,13 +11,22 @@ var app = http.createServer(function(request,response){
         _url = '/index.html';
     }
     else if (_url == '/login') {
-        _url = '/login.html';
+        _url = '/index.html';
     }
     else if (_url == '/register') {
-        _url = '/register.html';
+        _url = '/index.html';
     }
     else if (_url == '/board') {
-        _url = '/board.html';
+        _url = '/index.html';
+    }
+    else if (_url == '/notice') {
+        _url = '/index.html';
+    }
+    else if (_url == '/write') {
+        _url = '/index.html';
+    }
+    else if (_url == '/mypage') {
+        _url = '/index.html';
     }
     response.writeHead(200);
     response.end(fs.readFileSync(__dirname + _url));
