@@ -91,14 +91,14 @@ a {
   display: none;
   position: absolute;
   right: 32px;
-  top: 10px;
+  margin-top:5px;
   font-size: 30px;
   color: var(--accent-color);
 }
 
 .ad{
   width:100vw;
-  padding-top:10px
+  padding-top:10px;
 }
 
 /* For small screen */
