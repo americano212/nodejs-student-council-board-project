@@ -23,7 +23,7 @@ var app = http.createServer(function(request,response){
         _url = '/index.html';
     }
     else if (pathname == '/login') {
-        _url = '/index.html';
+        _url = '/login.html';
     }
     else if (pathname == '/register') {
         _url = '/register.html';
