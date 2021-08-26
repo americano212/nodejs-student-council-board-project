@@ -2,7 +2,7 @@ var http = require('http');
 var fs = require('fs');
 var url = require('url');
 var mysql = require('mysql');
-var template = require('./template.js');
+var template = require('./static/js/template.js');
 
 var db = mysql.createConnection({
     host : 'localhost',
