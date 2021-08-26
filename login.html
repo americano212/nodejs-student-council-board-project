@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./static/css/style.css" />
+    <link rel="stylesheet" href="./static/css/login.css" />
+    <link rel="stylesheet" href="./static/css/font.css" />
+    <title>로그인</title>
+    <script
+      src="https://kit.fontawesome.com/2d323a629b.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./static/js/mobile_menu.js" defer></script>
+    <script type="text/javascript">
+      function forget_pw(){
+        alert("서강대학교 공학부 페이스북이나 인스타로 문의 바랍니다");
+      }
+    </script>
+  </head>
+  <body>
+    <!-- Nav container -->
+    <nav class="navbar">
+      <!-- Logo with text -->
+      <div class="navbar__logo">
+        <ul class="navbar___logo">
+          <li><a href="./index.html"><img src="./static/img/logo.png" alt="logo" width="50px" class="logo"></a></li>
+          <li><a href="./index.html" class="sogang">서강대학교<br>공학부 신문고</a></li>
+        </ul>
+      </div>
+      <!-- Menu -->
+      <ul class="navbar__menu">
+        <li><a href="./notice">공지사항</a></li>
+        <li><a href="./write">글쓰기</a></li>
+        <li><a href="./board">자유게시판</a></li>
+        <li><a href="./mypage">마이페이지</a></li>
+      </ul>
+      <!-- Icons -->
+      <ul class="navbar__icons">
+        <li><a href="./login">로그인</a></li>
+        <li><a href="./register">회원가입</a></li>
+      </ul>
+      <!-- Toggle button -->
+      <a href="#" class="navbar__toggleBtn">
+        <i class="fas fa-bars"></i>
+      </a>
+    </nav>
+
+
+    <div class="login_box" style="border:4px dotted; padding:10px;">
+      <div id="login_">로그인</div>
+      <form class="login" action="connect.php"  method="post">
+        <input id="id_number" type="number" autocomplete="off" placeholder="학번"><br>
+        <input id="pw" type="password" autocomplete="off" placeholder="비밀번호"><br>
+        <input id="login_submit" type="submit" value="로그인" onclick="submit_login()">
+      </form>
+      <a href="#" class="forget_pw" onclick="forget_pw()">비밀번호를 잊으셨나요?</a>
+    </div>
+  </body>
+</html>
