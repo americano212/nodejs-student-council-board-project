@@ -293,6 +293,82 @@ a {
   .sogang{
     display:none;
   }
+  #register_{
+    font-size:25px;
+    margin:10px;
+  }
+  #name{
+    width:250px;
+    height:40px;
+    padding:5px 5px;
+  }
+
+  #id_number{
+    width:250px;
+    height:40px;
+    padding:5px 5px;
+  }
+
+  #pw{
+    width:250px;
+    height:40px;
+    padding:5px 5px;
+  }
+
+  #pw_confirm{
+    width:250px;
+    height:40px;
+    padding:5px 5px;
+  }
+
+  .major_check li{
+    padding: 0px 5px;
+  }
+
+  #email_addr{
+    font-size:10px;
+    height:40px;
+    padding:2px 2px;
+    width:85px;
+  }
+
+  #sogang_email{
+    font-size:12px;
+  }
+
+  #email_code_{
+    font-size:12px;
+    height:40px;
+    padding:2px 2px;
+  }
+
+  #email_code{
+    height:40px;
+    padding:5px 5px;
+    margin: 2px 2px;
+    width:155px;
+  }
+
+  #email_code_confirm{
+    height:40px;
+    padding:2px 2px;
+  }
+
+  #register_submit{
+    width:250px;
+    height:40px;
+    padding:5px 5px;
+    margin: 5px 5px;
+    margin-top: 10px;
+    margin-bottom:10px;
+  }
+
+  .register_box{
+    width: 300px;
+    margin: 0 0 0 -150px;
+    margin-top:20px;
+    margin-bottom:20px;
+  }
 
 
 }
