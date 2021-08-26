@@ -14,7 +14,7 @@ var app = http.createServer(function(request,response){
         _url = '/index.html';
     }
     else if (_url == '/register') {
-        _url = '/index.html';
+        _url = '/register.html';
     }
     else if (_url == '/board') {
         _url = '/index.html';
