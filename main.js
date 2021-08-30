@@ -2,16 +2,36 @@ var http = require('http');
 var fs = require('fs');
 var url = require('url');
 var mysql = require('mysql');
-var template = require('./static/js/template.js');
+const express = require('express')
+const app = express()
+const port = 3000
+var path = require('path');
 
-var db = mysql.createConnection({
-    host : 'localhost',
-    user : 'root',
-    password : 'qw0212',
-    database : 'test'
-});
-db.connect();
+app.use(express.static(path.join(__dirname,'/')));
 
+app.get('/', function(req, res){
+    return res.sendFile(__dirname+'/index.html')
+})
+
+app.get('/login', function(req, res){
+    return res.sendFile(__dirname+'/login.html')
+})
+
+app.get('/register', function(req, res){
+    return res.sendFile(__dirname+'/register.html')
+})
+
+app.get('/board', function(req, res){
+    return res.sendFile(__dirname+'/board.html')
+})
+
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
+})
+
+
+/*
 var app = http.createServer(function(request,response){
     var _url = request.url;
     var queryData = url.parse(_url, true).query;
@@ -21,6 +41,7 @@ var app = http.createServer(function(request,response){
     }
     if(pathname == '/'){
         _url = '/index.html';
+
     }
     else if (pathname == '/login') {
         _url = '/login.html';
@@ -30,23 +51,11 @@ var app = http.createServer(function(request,response){
     }
     else if (pathname == '/board') {
         _url = '/board.html';
-        db.query(`SELECT * FROM tblBoard`,function(error, contents){
-            var title = '';
-            var list = template.list(contents);
-            var html = template.HTML(title,list,``,``);
-        });
-    }
-    else if (pathname == '/notice') {
-        _url = '/index.html';
-    }
-    else if (pathname == '/write') {
-        _url = '/index.html';
-    }
-    else if (pathname == '/mypage') {
-        _url = '/index.html';
+
     }
     response.writeHead(200);
     response.end(fs.readFileSync(__dirname + _url));
 });
 
 app.listen(3000);
+*/
