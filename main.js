@@ -6,26 +6,32 @@ const express = require('express')
 const app = express()
 const port = 3000
 var path = require('path');
+const ejs = require('ejs');
 
+// setting
 app.use(express.static(path.join(__dirname,'/')));
+app.set('view engine', 'ejs');
+app.set('views', './views');
 
-app.get('/', function(req, res){
-    return res.sendFile(__dirname+'/index.html')
+
+// Routes
+app.get('/', (req, res) => {
+    res.render('index');
 })
 
-app.get('/login', function(req, res){
-    return res.sendFile(__dirname+'/login.html')
+app.get('/login', (req, res) => {
+    res.render('login');
 })
 
-app.get('/register', function(req, res){
-    return res.sendFile(__dirname+'/register.html')
+app.get('/register', (req, res) => {
+    res.render('register');
 })
 
-app.get('/board', function(req, res){
-    return res.sendFile(__dirname+'/board.html')
+app.get('/board', (req, res) => {
+    res.render('board');
 })
 
-
+// Port Setting
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
