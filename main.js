@@ -7,6 +7,7 @@ const app = express()
 const port = 3000
 var path = require('path');
 const ejs = require('ejs');
+const bodyParser = require('body-parser');
 
 // database
 const db = mysql.createConnection({
@@ -41,6 +42,10 @@ app.get('/register', (req, res) => {
     res.render('register');
 })
 
+app.get('/write', (req, res) => {
+    res.render('write');
+})
+
 app.get('/board', (req, res) => {
     const sql = "SELECT * FROM tblboard";
     db.query(sql,function(err,result,fields){
@@ -48,7 +53,6 @@ app.get('/board', (req, res) => {
         res.render('board',{contents : result});
         console.log(result);
     });
-
 })
 
 // Port Setting
