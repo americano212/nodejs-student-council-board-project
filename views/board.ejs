@@ -14,6 +14,19 @@
   </head>
   <body>
     <%- include('header') %>
-
+    <table>
+        <tr>
+            <th>제목</th>
+            <th>만든날짜</th>
+            <th>조회수</th>
+        </tr>
+        <% contents.forEach(function(value){ %>
+            <tr>
+                <td><%= value.b_title %></td>
+                <td><%= value.b_created %></td>
+                <td><%= value.b_hit %></td>
+            </tr>
+        <% }); %>
+    </table>
   </body>
 </html>

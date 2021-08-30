@@ -8,6 +8,20 @@ const port = 3000
 var path = require('path');
 const ejs = require('ejs');
 
+// database
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'qw0212',
+    database: 'test'
+});
+
+db.connect(function(err){
+    if (err) throw err;
+    console.log('Connected DBDB');
+});
+
+
 // setting
 app.use(express.static(path.join(__dirname,'/')));
 app.set('view engine', 'ejs');
@@ -28,7 +42,13 @@ app.get('/register', (req, res) => {
 })
 
 app.get('/board', (req, res) => {
-    res.render('board');
+    const sql = "SELECT * FROM tblboard";
+    db.query(sql,function(err,result,fields){
+        if(err) throw err;
+        res.render('board',{contents : result});
+        console.log(result);
+    });
+
 })
 
 // Port Setting
