@@ -7,6 +7,7 @@ const app = express();
 const port = 3000
 var path = require('path');
 const ejs = require('ejs');
+const bodyParser = require('body-parser');
 
 var favicon = require('static-favicon');
 var logger = require('morgan');
@@ -39,7 +40,7 @@ db.connect(function(err){
 app.use(express.static(path.join(__dirname,'/')));
 app.set('view engine', 'ejs');
 app.set('views', './views');
-
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
 app.get('/', (req, res) => {
@@ -56,6 +57,22 @@ app.get('/login', (req, res) => {
 var registerRouter = require('./static/js/register');
 app.use('/register', registerRouter);
 
+app.get('/write', (req, res) => {
+    res.render('write');
+})
+
+app.post('/write', (req,res) => {
+    const post = req.body;
+    const sql = 'INSERT INTO tblboard (b_title,b_type,b_content,b_created,b_modified,b_writer_seq,b_status) VALUES';
+    const sqlValue = `("${post.title}","${post.text_type}","${post.description}",NOW(),NOW(),0,0);`;
+
+    db.query(sql+sqlValue,req.body,function(err,result,fields){
+        if (err) throw err;
+        console.log(result);
+        res.send('글이 작성되었습니다.');
+    });
+});
+
 app.get('/board', (req, res) => {
     const sql = "SELECT * FROM sbboard";
     db.query(sql,function(err,result,fields){
@@ -63,7 +80,6 @@ app.get('/board', (req, res) => {
         res.render('board',{contents : result});
         console.log(result);
     });
-
 })
 
 // Port Setting
