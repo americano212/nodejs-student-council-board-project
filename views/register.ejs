@@ -22,7 +22,7 @@
         var pwd_2 =document.getElementById("pw_confirm");
         if(id_n==""){
           alert("학번을 입력해주세요.");
-        }
+        }/*
         else if(id_n.length <=7){
           alert("학번을 다시한번 확인해주세요.");
         }
@@ -37,14 +37,14 @@
         }
         else if(email_flag<2){
           alert("이메일 인증을 받아주세요.");
-        }
+        }*/
         else{
-          location.href="index.html";
+          location.href="/";
           alert("회원가입에 성공했습니다!");
         }
       }
       function email_code(){
-          var email_address=document.getElementById("email_addr").value;
+          /*var email_address=document.getElementById("email_addr").value;
           if(email_address=="")
           {
             alert("이메일을 입력해주세요");
@@ -52,11 +52,12 @@
           else{
             email_address += "@sogang.ac.kr";
             email_flag = 1;
-          }
+          }*/
 
           //이메일 보내기
       }
       function email_confirm(){
+        /*
           var email_code = document.getElementById("email_code").value;
           if(email_flag == 1 && email_confirm_number==email_code)
           {
@@ -68,6 +69,7 @@
           else {
             alert("인증번호 전송을 눌러주세요");
           }
+          */
       }
     </script>
   </head>
@@ -79,9 +81,9 @@
       <div id="register_">
         회원가입
       </div>
-      <form class="register" action="connect.php"  method="post">
-        <input id="name" type="text" autocomplete="off" placeholder="이름"><br>
-        <input id="id_number" type="number" autocomplete="off" placeholder="학번"><br>
+      <form class="register" action="/register"  method="POST">
+        <input id="name" name="name" type="text" autocomplete="off" placeholder="이름"><br>
+        <input id="id_number" name="id_number" type="number" autocomplete="off" placeholder="학번"><br>
         <p>
           <ul class="major_check">
             <li>기계<input class="major" name="major" type="radio" id="major_1"></li>
@@ -91,9 +93,9 @@
           </ul>
 
         </p>
-        <input id="pw" type="password" autocomplete="off" placeholder="비밀번호"><br>
+        <input id="pw" type="password" name="pw" autocomplete="off" placeholder="비밀번호"><br>
         <input id="pw_confirm" type="password" autocomplete="off" placeholder="비밀번호 확인"><br>
-        <input id="email_addr" type="email" autocomplete="off" placeholder="서강 이메일 주소"><span id="sogang_email">@sogang.ac.kr</span>
+        <input id="email_addr" type="text" name="email_addr" autocomplete="off" placeholder="서강 이메일 주소"><span id="sogang_email">@sogang.ac.kr</span>
         <input id="email_code_" type="button" value="인증번호 전송" onclick="email_code()"><br>
         <input id="email_code" type="number" autocomplete="off" placeholder="인증번호 입력">
         <input id="email_code_confirm" type="button" value="인증번호 확인" onclick="email_confirm()"><br>

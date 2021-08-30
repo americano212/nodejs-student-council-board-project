@@ -2,18 +2,31 @@ var http = require('http');
 var fs = require('fs');
 var url = require('url');
 var mysql = require('mysql');
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
 const port = 3000
 var path = require('path');
 const ejs = require('ejs');
+
+var favicon = require('static-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+// 로그인 상태를 유지하기 위해 express-session을 사용하였습니다
+let session = require('express-session');
+
+
+app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true }))
+
 
 // database
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'qw0212',
-    database: 'test'
+    password: '12341234!',
+    port:  3306 ,
+    database: 'sb'
 });
 
 db.connect(function(err){
@@ -37,12 +50,14 @@ app.get('/login', (req, res) => {
     res.render('login');
 })
 
-app.get('/register', (req, res) => {
+/*app.get('/register', (req, res) => {
     res.render('register');
-})
+})*/
+var registerRouter = require('./static/js/register');
+app.use('/register', registerRouter);
 
 app.get('/board', (req, res) => {
-    const sql = "SELECT * FROM tblboard";
+    const sql = "SELECT * FROM sbboard";
     db.query(sql,function(err,result,fields){
         if(err) throw err;
         res.render('board',{contents : result});
@@ -55,6 +70,21 @@ app.get('/board', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
+
+
+
+app.use(favicon());
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+app.use(cookieParser());
+//app.use(express.static(path.join(__dirname, 'public')));
+// exprees-session 하겠다는 것
+app.use(session({
+    secret: 'secretkey',
+    resave: false,
+    saveUninitialized: true,
+}))
 
 
 /*
