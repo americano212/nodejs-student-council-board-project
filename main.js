@@ -12,25 +12,20 @@ const bodyParser = require('body-parser');
 var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
 // 로그인 상태를 유지하기 위해 express-session을 사용하였습니다
 let session = require('express-session');
 
 
-app.use(bodyParser.json()) // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true }))
-
 
 // database
-const db = mysql.createConnection({
+const sb = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '12341234!',
-    port:  3306 ,
-    database: 'sb'
+    database: 'test'
 });
 
-db.connect(function(err){
+sb.connect(function(err){
     if (err) throw err;
     console.log('Connected DBDB');
 });
@@ -41,6 +36,7 @@ app.use(express.static(path.join(__dirname,'/')));
 app.set('view engine', 'ejs');
 app.set('views', './views');
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json()) // for parsing application/json
 
 // Routes
 app.get('/', (req, res) => {
@@ -66,7 +62,7 @@ app.post('/write', (req,res) => {
     const sql = 'INSERT INTO tblboard (b_title,b_type,b_content,b_created,b_modified,b_writer_seq,b_status) VALUES';
     const sqlValue = `("${post.title}","${post.text_type}","${post.description}",NOW(),NOW(),0,0);`;
 
-    db.query(sql+sqlValue,req.body,function(err,result,fields){
+    sb.query(sql+sqlValue,req.body,function(err,result,fields){
         if (err) throw err;
         console.log(result);
         res.send('글이 작성되었습니다.');
@@ -74,8 +70,8 @@ app.post('/write', (req,res) => {
 });
 
 app.get('/board', (req, res) => {
-    const sql = "SELECT * FROM sbboard";
-    db.query(sql,function(err,result,fields){
+    const sql = "SELECT * FROM tblboard";
+    sb.query(sql,function(err,result,fields){
         if(err) throw err;
         res.render('board',{contents : result});
         console.log(result);
