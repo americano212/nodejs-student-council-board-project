@@ -20,13 +20,11 @@
             <th>만든날짜</th>
             <th>조회수</th>
         </tr>
-        <% contents.forEach(function(value){ %>
-            <tr>
-                <td><a href="/detail/<%= value.b_seq %>"><%= value.b_title %></a></td>
-                <td><%= value.b_created %></td>
-                <td><%= value.b_hit %></td>
-            </tr>
-        <% }); %>
+        <tr>
+            <td><%= value.b_title %></td>
+            <td><%= value.b_created %></td>
+            <td><%= value.b_hit %></td>
+        </tr>
     </table>
   </body>
 </html>

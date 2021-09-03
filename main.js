@@ -32,7 +32,7 @@ sb.connect(function(err){
 
 
 // setting
-app.use(express.static(path.join(__dirname,'/')));
+app.use(express.static(__dirname+'/public'));
 app.set('view engine', 'ejs');
 app.set('views', './views');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -50,7 +50,7 @@ app.get('/login', (req, res) => {
 /*app.get('/register', (req, res) => {
     res.render('register');
 })*/
-var registerRouter = require('./static/js/register');
+var registerRouter = require('./public/js/register');
 app.use('/register', registerRouter);
 
 app.get('/write', (req, res) => {
@@ -76,8 +76,17 @@ app.get('/board', (req, res) => {
         res.render('board',{contents : result});
         console.log(result);
     });
-})
+});
 
+app.get('/detail/:id', (req,res) => {
+
+    const sql = "SELECT * FROM tblboard WHERE b_seq = ?";
+    sb.query(sql,[req.params.id],function(err,result,fields){
+        if(err) throw err;
+        res.render('detail',{value : result});
+        console.log(result);
+    });
+});
 // Port Setting
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
