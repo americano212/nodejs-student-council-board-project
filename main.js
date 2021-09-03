@@ -74,7 +74,6 @@ app.get('/board', (req, res) => {
     sb.query(sql,function(err,result,fields){
         if(err) throw err;
         res.render('board',{contents : result});
-        console.log(result);
     });
 });
 
@@ -83,8 +82,8 @@ app.get('/detail/:id', (req,res) => {
     const sql = "SELECT * FROM tblboard WHERE b_seq = ?";
     sb.query(sql,[req.params.id],function(err,result,fields){
         if(err) throw err;
-        res.render('detail',{value : result});
-        console.log(result);
+        res.render('detail',{contents : result[0]});
+        console.log(result[0]);
     });
 });
 // Port Setting
