@@ -16,12 +16,14 @@
     <%- include('header') %>
     <table>
         <tr>
+            <th>번호</th>
             <th>제목</th>
             <th>만든날짜</th>
             <th>조회수</th>
         </tr>
         <% contents.forEach(function(value){ %>
             <tr>
+                <td><%= value.b_seq %></td>
                 <td><a href="/detail/<%= value.b_seq %>"><%= value.b_title %></a></td>
                 <td><%= value.b_created %></td>
                 <td><%= value.b_hit %></td>

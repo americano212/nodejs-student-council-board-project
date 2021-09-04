@@ -71,7 +71,7 @@ app.post('/write', (req,res) => {
 });
 
 app.get('/board', (req, res) => {
-    const sql = "SELECT * FROM tblboard";
+    const sql = "SELECT b_seq,b_title,b_created,b_hit,b_like FROM tblboard ORDER BY b_seq DESC";
     sb.query(sql,function(err,result,fields){
         if(err) throw err;
         res.render('board',{contents : result});
