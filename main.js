@@ -60,8 +60,8 @@ app.get('/write', (req, res) => {
 
 app.post('/write', (req,res) => {
     const post = req.body;
-    const sql = 'INSERT INTO tblboard (b_title,b_type,b_content,b_created,b_modified,b_writer_seq,b_status) VALUES';
-    const sqlValue = `("${post.title}","${post.text_type}","${post.description}",NOW(),NOW(),0,0);`;
+    const sql = 'INSERT INTO tblboard (b_title,b_type,b_content,b_created,b_writer_seq,b_status) VALUES';
+    const sqlValue = `("${post.title}","${post.text_type}","${post.description}",NOW(),0,0);`;
 
     sb.query(sql+sqlValue,req.body,function(err,result,fields){
         if (err) throw err;
@@ -96,6 +96,20 @@ app.get('/edit/:id', (req,res) => {
         res.render('edit',{contents : result[0]});
         console.log(result[0]);
     });
+});
+
+app.post('/edit/:id', (req,res) => {
+
+  const post = req.body;
+  var type = post.text_type
+  var id = req.params.id;
+  const sql = 'UPDATE tblboard SET b_title=?, b_type=?, b_content=? WHERE b_seq=?';
+
+  sb.query(sql,[post.title,type,post.description, id],function(err,result,fields){
+      if (err) throw err;
+      console.log(result);
+      res.redirect('/board');
+  });
 });
 
 // Port Setting
