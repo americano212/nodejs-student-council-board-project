@@ -38,6 +38,7 @@ app.set('views', './views');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json()) // for parsing application/json
 
+
 // Routes
 app.get('/', (req, res) => {
     res.render('index');
@@ -86,6 +87,17 @@ app.get('/detail/:id', (req,res) => {
         console.log(result[0]);
     });
 });
+
+app.get('/edit/:id', (req,res) => {
+
+    const sql = "SELECT * FROM tblboard WHERE b_seq = ?";
+    sb.query(sql,[req.params.id],function(err,result,fields){
+        if(err) throw err;
+        res.render('edit',{contents : result[0]});
+        console.log(result[0]);
+    });
+});
+
 // Port Setting
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
@@ -105,33 +117,3 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
 }))
-
-
-/*
-var app = http.createServer(function(request,response){
-    var _url = request.url;
-    var queryData = url.parse(_url, true).query;
-    var pathname = url.parse(_url, true).pathname;
-    if (pathname == '/favicon.ico'){
-        return response.writeHead(404);
-    }
-    if(pathname == '/'){
-        _url = '/index.html';
-
-    }
-    else if (pathname == '/login') {
-        _url = '/login.html';
-    }
-    else if (pathname == '/register') {
-        _url = '/register.html';
-    }
-    else if (pathname == '/board') {
-        _url = '/board.html';
-
-    }
-    response.writeHead(200);
-    response.end(fs.readFileSync(__dirname + _url));
-});
-
-app.listen(3000);
-*/
