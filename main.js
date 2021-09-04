@@ -66,7 +66,7 @@ app.post('/write', (req,res) => {
     sb.query(sql+sqlValue,req.body,function(err,result,fields){
         if (err) throw err;
         console.log(result);
-        res.send('글이 작성되었습니다.');
+        res.redirect('/board');
     });
 });
 
