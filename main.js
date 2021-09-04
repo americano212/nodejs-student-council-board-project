@@ -14,15 +14,15 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 // 로그인 상태를 유지하기 위해 express-session을 사용하였습니다
 let session = require('express-session');
-
+var db_config  = require('./config/db-config.json');
 
 
 // database
 const sb = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '12341234!',
-    database: 'test'
+    host     : db_config.host,
+    user     : db_config.user,
+    password : db_config.password,
+    database : db_config.database
 });
 
 sb.connect(function(err){
