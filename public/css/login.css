@@ -1,0 +1,262 @@
+:root {
+  --text-color: #000000;
+  --background-color: #F0F9FF;
+  --accent-color: #CBE6FA;
+}
+
+* {
+
+  box-sizing: border-box;
+
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+body {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+.navbar___logo{
+  display:flex;
+  padding-left: 0;
+  list-style: none;
+  margin:0px;
+}
+
+.navbar___logo li{
+  display:flex;
+  font-family:'JeongsogeonhaeL';
+  font-size:23px;
+  font-weight:bold;
+  margin-top:6px;
+}
+
+/* Nav container */
+.navbar {
+  z-index:1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top:20px;
+  padding: 0px 12px;
+  background-color: var(--background-color);
+  box-shadow: 0 0 10px 1px silver;
+  height:80px;
+}
+
+
+/* Logo with text */
+.navbar__logo {
+  font-size: 20px;
+  color: var(--text-color);
+}
+
+/* Menu */
+.navbar__menu {
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+}
+
+.navbar__menu li {
+  padding: 8px 40px;
+}
+
+.navbar__menu li:hover {
+  background-color: var(--accent-color);
+  border-radius: 4px;
+  font-weight:bold;
+}
+.navbar__icons {
+  list-style: none;
+  color: var(--text-color);
+  display: flex;
+  padding-left: 0;
+}
+.navbar__icons li:hover {
+  background-color: var(--accent-color);
+  border-radius: 4px;
+  font-weight:bold;
+}
+/* Icons */
+.navbar__icons li {
+  padding: 8px 12px;
+  font-size:12px;
+}
+
+/* Toggle button */
+.navbar__toggleBtn {
+  display: none;
+  position: absolute;
+  right: 32px;
+  margin-top:5px;
+  font-size: 30px;
+  color: var(--accent-color);
+}
+
+
+.ad{
+  width:100vw;
+  padding-top:10px;
+}
+
+#login_{
+  font-size:30px;
+  margin:20px;
+  text-align:center;
+}
+
+.login{
+  text-align:center;
+}
+
+
+#id_number{
+  width:400px;
+  height:50px;
+  padding:10px 10px;
+  margin: 10px 10px;
+  margin-bottom:20px;
+}
+
+#pw{
+  width:400px;
+  height:50px;
+  padding:10px 10px;
+  margin: 10px 10px;
+  margin-bottom:20px;
+}
+
+
+#login_submit{
+  width:400px;
+  height:50px;
+  padding:10px 10px;
+  margin: 5px 5px;
+  background-color: var(--accent-color) ;
+  border-radius:4px;
+  border:0;
+  outline: 0;
+  margin-bottom:30px;
+}
+
+
+#login_submit:hover{
+  font-weight:bold;
+  box-shadow: 2px 2px 0 0 silver;
+}
+
+.login_box{
+  text-align:center;
+  width: 450px;
+  border-radius:20px;
+  position:relative;
+  top:30px;
+  left:50%;
+  margin: 0 0 0 -225px;
+  margin-bottom:20px;
+}
+
+.forget_pw{
+  font-size: 12px;
+}
+
+
+/* For small screen */
+@media screen and (max-width: 943px) {
+  /* Nav container */
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 24px;
+    height:auto;
+    margin-top:0px;
+  }
+
+  /* Menu */
+  .navbar__menu {
+    display: none;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+  }
+
+  .navbar__menu a {
+    /* Fill in an entire line so that user can click on any space */
+    display: block;
+    padding: 10px 0;
+  }
+  .navbar__logo{
+    height:50px;
+  }
+  .navbar___logo li{
+    margin-top:0;
+  }
+  /* Icons */
+  .navbar__icons {
+    display: none;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .navbar__icons li{
+    font-size:12px;
+  }
+  /* Toggle button */
+  .navbar__toggleBtn {
+    display: block;
+  }
+
+  /* When toggle button is clicked - active state */
+  .navbar__menu.active,
+  .navbar__icons.active {
+    display: flex;
+  }
+
+  .ad{
+    display:none;
+  }
+
+  .sogang{
+    display:none;
+  }
+  #register_{
+    font-size:25px;
+  }
+
+  #id_number{
+    width:250px;
+  }
+
+  #pw{
+    width:250px;
+  }
+
+  #login_submit{
+    width:250px;
+    height:50px;
+    padding:5px 5px;
+    margin: 5px 5px;
+    margin-top: 10px;
+    margin-bottom:10px;
+  }
+
+  .login_box{
+    width: 330px;
+    margin: 0 0 0 -165px;
+    margin-top:20px;
+    margin-bottom:20px;
+  }
+
+
+}

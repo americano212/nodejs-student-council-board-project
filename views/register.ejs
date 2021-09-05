@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/register.css" />
+    <link rel="stylesheet" href="/css/font.css" />
+    <title>서강대학교 공학부 신문고</title>
+    <script
+      src="https://kit.fontawesome.com/2d323a629b.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/js/mobile_menu.js" defer></script>
+    <script type="text/javascript">
+      var email_flag = 0;
+      var email_confirm_number =0;
+      function submit_register(){
+        var id_n = document.getElementById("id_number");
+        var name = document.getElementById("name");
+        var pwd = document.getElementById("pw");
+        var pwd_2 =document.getElementById("pw_confirm");
+        if(id_n==""){
+          alert("학번을 입력해주세요.");
+        }/*
+        else if(id_n.length <=7){
+          alert("학번을 다시한번 확인해주세요.");
+        }
+        else if(name==""){
+          alert("이름을 입력해주세요.");
+        }
+        else if(pwd==""){
+          alert("비밀번호를 입력해주세요.");
+        }
+        else if(pwd!=pwd_2){
+          alert("비밀번호가 불일치합니다.");
+        }
+        else if(email_flag<2){
+          alert("이메일 인증을 받아주세요.");
+        }*/
+        else{
+          location.href="/";
+          alert("회원가입에 성공했습니다!");
+        }
+      }
+      function email_code(){
+          /*var email_address=document.getElementById("email_addr").value;
+          if(email_address=="")
+          {
+            alert("이메일을 입력해주세요");
+          }
+          else{
+            email_address += "@sogang.ac.kr";
+            email_flag = 1;
+          }*/
+
+          //이메일 보내기
+      }
+      function email_confirm(){
+        /*
+          var email_code = document.getElementById("email_code").value;
+          if(email_flag == 1 && email_confirm_number==email_code)
+          {
+            email_flag = 2;
+          }
+          else if(email_flag==1 && email_confirm_number!=email_code){
+            alert("인증번호를 확인해주세요");
+          }
+          else {
+            alert("인증번호 전송을 눌러주세요");
+          }
+          */
+      }
+    </script>
+  </head>
+  <body>
+    <%- include('header') %>
+
+
+    <div class="register_box" style="border:4px dotted; padding:10px;">
+      <div id="register_">
+        회원가입
+      </div>
+      <form class="register" action="/register"  method="POST">
+        <input id="name" name="name" type="text" autocomplete="off" placeholder="이름"><br>
+        <input id="id_number" name="id_number" type="number" autocomplete="off" placeholder="학번"><br>
+        <p>
+          <ul class="major_check">
+            <li>기계<input class="major" name="major" type="radio" id="major_1"></li>
+            <li>화공<input class="major" name="major" type="radio" id="major_2"></li>
+            <li>전자<input class="major" name="major" type="radio" id="major_3"></li>
+            <li>컴공<input class="major" name="major" type="radio" id="major_4"></li>
+          </ul>
+
+        </p>
+        <input id="pw" type="password" name="pw" autocomplete="off" placeholder="비밀번호"><br>
+        <input id="pw_confirm" type="password" autocomplete="off" placeholder="비밀번호 확인"><br>
+        <input id="email_addr" type="text" name="email_addr" autocomplete="off" placeholder="서강 이메일 주소"><span id="sogang_email">@sogang.ac.kr</span>
+        <input id="email_code_" type="button" value="인증번호 전송" onclick="email_code()"><br>
+        <input id="email_code" type="number" autocomplete="off" placeholder="인증번호 입력">
+        <input id="email_code_confirm" type="button" value="인증번호 확인" onclick="email_confirm()"><br>
+
+        <input id="register_submit" type="submit" value="가입하기" onclick="submit_register()">
+      </form>
+    </div>
+  </body>
+</html>
