@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/font.css" />
+    <link rel="stylesheet" href="/css/board.css" />
     <title>서강대학교 공학부 신문고</title>
     <script
       src="https://kit.fontawesome.com/2d323a629b.js"
@@ -14,21 +15,27 @@
   </head>
   <body>
     <%- include('header') %>
-    <table>
-        <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>만든날짜</th>
-            <th>조회수</th>
-        </tr>
-        <% contents.forEach(function(value){ %>
+    <div class="table_box">
+        <table>
+            <thead>
             <tr>
-                <td><%= value.b_seq %></td>
-                <td><a href="/detail/<%= value.b_seq %>"><%= value.b_title %></a></td>
-                <td><%= value.b_created %></td>
-                <td><%= value.b_hit %></td>
+                <th>번호</th>
+                <th>제목</th>
+                <th>만든날짜</th>
+                <th>조회수</th>
             </tr>
-        <% }); %>
-    </table>
+            </thead>
+            <tbody>
+            <% contents.forEach(function(value){ %>
+                <tr>
+                    <td><%= value.b_seq %></td>
+                    <td><a href="/detail/<%= value.b_seq %>"><%= value.b_title %></a></td>
+                    <td><%= value.b_created %></td>
+                    <td><%= value.b_hit %></td>
+                </tr>
+            <% }); %>
+            <tbody>
+        </table>
+    </div>
   </body>
 </html>

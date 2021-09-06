@@ -22,7 +22,8 @@ const sb = mysql.createConnection({
     host     : db_config.host,
     user     : db_config.user,
     password : db_config.password,
-    database : db_config.database
+    database : db_config.database,
+    dateStrings : 'date'
 });
 
 sb.connect(function(err){
