@@ -17,7 +17,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 // 로그인 상태를 유지하기 위해 express-session을 사용하였습니다
 let session = require('express-session');
-
+var db_config  = require('../../config/db-config.json');
 
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -40,7 +40,8 @@ router.post('/', (req, res, next) => {
     pw = bcrypt.hashSync(pw);
     // db에 저장하는 기능
     let sql = { name,id_number,major, pw,email_addr };
-    db.mysql.query('INSERT INTO sbUser(u_name, u_studentID,u_major,u_password,u_email) VALUES(?,?,?,?,?)', [name,id_number,major, pw,email_addr], (err) => {
+    console.log(sql);
+    db.mysql.query('INSERT INTO sbuser (u_name, u_studentID,u_major,u_password,u_email) VALUES(?,?,?,?,?)', [name,id_number,major, pw,email_addr], (err) => {
         // err에서는 입력한 아이디가 이미 db상에서 존재하는 경우에 발생한다.
         if (err) {
             console.log(err);
