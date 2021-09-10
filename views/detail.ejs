@@ -26,5 +26,14 @@
             <td><%= contents.b_hit %></td>
         </tr>
     </table>
+    <div class="main_content">
+        <%= contents.b_content %>
+    </div>
+    <% if(is_owner){ %>
+        <input type="button" value="수정" onClick="location.href='/edit/<%= contents.b_seq %>'">
+        <input type="button" value="삭제" onClick="location.href='/delete/<%= contents.b_seq %>'">
+    <% }else{ %>
+    <% } %>
+
   </body>
 </html>

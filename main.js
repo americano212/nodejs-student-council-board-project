@@ -95,6 +95,7 @@ app.post('/login', (req, res) => {
                      console.log('로그인 성공');
                      req.session.is_login = true;
                      req.session.studentID = loginID;
+                     req.session.u_seq = rows[0].u_seq;
                      req.session.save(function(){
                          return res.redirect('/');
                      });
@@ -142,7 +143,7 @@ app.get('/write', (req, res) => {
 app.post('/write', (req,res) => {
     const post = req.body;
     const sql = 'INSERT INTO tblboard (b_title,b_type,b_content,b_created,b_writer_seq,b_status) VALUES';
-    const sqlValue = `("${post.title}","${post.text_type}","${post.description}",NOW(),0,0);`;
+    const sqlValue = `("${post.title}","${post.text_type}","${post.description}",NOW(),"${req.session.u_seq}",0);`;
 
     sb.query(sql+sqlValue,req.body,function(err,result,fields){
         if (err) throw err;
@@ -165,7 +166,14 @@ app.get('/detail/:id', (req,res) => {
     const sql = "SELECT * FROM tblboard WHERE b_seq = ?";
     sb.query(sql,[req.params.id],function(err,result,fields){
         if(err) throw err;
-        res.render('detail',{contents : result[0], check_login : auth});
+        var is_owner = false;
+        if (req.session.u_seq !=undefined){
+            if (req.session.u_seq == result[0].b_writer_seq){
+                is_owner = true;
+            }
+        }
+
+        res.render('detail',{contents : result[0], check_login : auth, is_owner : is_owner});
         console.log(result[0]);
     });
 });
