@@ -23,7 +23,8 @@ app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }))
 // get요청시 페이지를 렌더하는데 title에 '회원가입'이라는 변수를 가지고 간다.
 router.get('/', function (req, res) {
-    return res.render('register', { title: '회원가입' });
+    var auth = authIsOwner(req,res);
+    return res.render('register', { title: '회원가입', check_login : auth });
 });
 
 // post요청시 회원가입을 하는 기능을 수행한다.
