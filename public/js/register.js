@@ -22,6 +22,16 @@ var db_config  = require('../../config/db-config.json');
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }))
 // get요청시 페이지를 렌더하는데 title에 '회원가입'이라는 변수를 가지고 간다.
+
+function authIsOwner(req,res) {
+    if (req.session.is_login){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
 router.get('/', function (req, res) {
     var auth = authIsOwner(req,res);
     return res.render('register', { title: '회원가입', check_login : auth });
