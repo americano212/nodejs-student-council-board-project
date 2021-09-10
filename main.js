@@ -135,6 +135,22 @@ app.get('/logout',(req,res) => {
 var registerRouter = require('./public/js/register');
 app.use('/register', registerRouter);
 
+app.get('/mypage', (req, res) => {
+    var auth = authIsOwner(req,res);
+    const sql1 = "SELECT b_seq,b_title,b_created,b_hit,b_like FROM tblboard WHERE b_writer_seq = ";
+    const sqlValue = `"${req.session.u_seq}"`;
+    const sql2 = " ORDER BY b_seq DESC";
+    if (auth){
+        sb.query(sql1+sqlValue+sql2,function(err,result,fields){
+            if(err) throw err;
+            res.render('mypage',{contents : result, check_login : auth});
+        });
+    }else{
+        res.send("<script>alert('로그인해야 이용하실 수 있습니다.');location.href='/login';</script>");
+    }
+
+});
+
 app.get('/write', (req, res) => {
     var auth = authIsOwner(req,res);
     res.render('write', {check_login : auth});
