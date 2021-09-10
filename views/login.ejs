@@ -23,9 +23,9 @@
 
     <div class="login_box" style="border:4px dotted; padding:10px;">
       <div id="login_">로그인</div>
-      <form class="login" action="connect.php"  method="post">
-        <input id="id_number" type="number" autocomplete="off" placeholder="학번"><br>
-        <input id="pw" type="password" autocomplete="off" placeholder="비밀번호"><br>
+      <form method="post">
+        <input id="id_number" name="id_number" type="number" autocomplete="off" placeholder="학번"><br>
+        <input id="pw" name="pw" type="password" autocomplete="off" placeholder="비밀번호"><br>
         <input id="login_submit" type="submit" value="로그인" onclick="submit_login()">
       </form>
       <a href="#" class="forget_pw" onclick="forget_pw()">비밀번호를 잊으셨나요?</a>

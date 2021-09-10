@@ -8,14 +8,13 @@ const port = 3000
 var path = require('path');
 const ejs = require('ejs');
 const bodyParser = require('body-parser');
-
+let bcrypt = require('bcrypt-nodejs');
 var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 // 로그인 상태를 유지하기 위해 express-session을 사용하였습니다
 let session = require('express-session');
 var db_config  = require('./config/db-config.json');
-
 
 // database
 const sb = mysql.createConnection({
@@ -47,7 +46,37 @@ app.get('/', (req, res) => {
 
 app.get('/login', (req, res) => {
     res.render('login');
-})
+});
+
+app.post('/login', (req, res) => {
+    var loginID = req.body.id_number;
+    var loginPW = req.body.pw;
+    var loginSQL = 'SELECT * FROM sbuser WHERE u_studentID = ?';
+    sb.query(loginSQL, loginID, function(err, rows, fields){
+        if (err) {
+            console.log('err : ' + err);
+        }
+        else {
+             console.log(rows);
+             if (rows[0]!=undefined){
+                 if (bcrypt.compareSync(loginPW, rows[0].u_password)){
+                     console.log('로그인 성공');
+                     res.redirect('/');
+                 }
+                 else{
+                     console.log('패스워드 일치하지 않음');
+                     res.send("<script>alert('패스워드 일치하지 않음');location.href='/login';</script>");
+                 }
+             }
+             else{
+                 console.log(rows[0]);
+                 console.log('학번을 다시 확인해주세요 ');
+                 res.send("<script>alert('학번을 다시 확인해주세요 ');location.href='/login';</script>");
+             }
+        }
+    });
+
+});
 
 /*app.get('/register', (req, res) => {
     res.render('register');
@@ -131,4 +160,4 @@ app.use(session({
     secret: 'secretkey',
     resave: false,
     saveUninitialized: true,
-}))
+}));
