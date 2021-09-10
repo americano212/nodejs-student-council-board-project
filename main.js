@@ -54,7 +54,13 @@ app.use(session({
     saveUninitialized: true,
     cookie : {
         maxAge : 1000 * 60 * 60
-    }
+    },
+    store : new MySQLstore({
+        host     : db_config.host,
+        user     : db_config.user,
+        password : db_config.password,
+        database : db_config.database
+    })
 }));
 
 //function
@@ -135,9 +141,15 @@ app.get('/logout',(req,res) => {
 var registerRouter = require('./public/js/register');
 app.use('/register', registerRouter);
 
+app.get('/notice', (req, res) => {
+    console.log(req.session)
+    var auth = authIsOwner(req,res);
+    res.render('notice', {check_login : auth});
+})
+
 app.get('/mypage', (req, res) => {
     var auth = authIsOwner(req,res);
-    const sql1 = "SELECT b_seq,b_title,b_created,b_hit,b_like FROM tblboard WHERE b_writer_seq = ";
+    const sql1 = "SELECT b_seq,b_title,b_created,b_hit,b_like FROM tblboard WHERE b_status NOT LIKE "%4%" AND b_writer_seq = ";
     const sqlValue = `"${req.session.u_seq}"`;
     const sql2 = " ORDER BY b_seq DESC";
     if (auth){
@@ -175,7 +187,7 @@ app.post('/write', (req,res) => {
 
 app.get('/board', (req, res) => {
     var auth = authIsOwner(req,res);
-    const sql = "SELECT b_seq,b_title,b_created,b_hit,b_like FROM tblboard ORDER BY b_seq DESC";
+    const sql = "SELECT b_seq,b_title,b_created,b_hit,b_like FROM tblboard WHERE b_status NOT IN(4) ORDER BY b_seq DESC";
     sb.query(sql,function(err,result,fields){
         if(err) throw err;
         res.render('board',{contents : result, check_login : auth});
@@ -221,8 +233,9 @@ app.get('/edit/:id', (req,res) => {
 app.post('/edit/:id', (req,res) => {
 
   const post = req.body;
-  var type = post.text_type
+  var type = post.text_type;
   var id = req.params.id;
+
   const sql = 'UPDATE tblboard SET b_title=?, b_type=?, b_content=? WHERE b_seq=?';
 
   sb.query(sql,[post.title,type,post.description, id],function(err,result,fields){
@@ -230,6 +243,31 @@ app.post('/edit/:id', (req,res) => {
       console.log(result);
       res.redirect('/board');
   });
+});
+
+app.get('/delete/:id', (req,res) => {
+
+    var auth = authIsOwner(req,res);
+    const sql = "UPDATE tblboard SET b_status = 4 WHERE b_seq = ?;";
+    const sql1 = "SELECT * FROM tblboard WHERE b_seq = ?";
+    sb.query(sql1,[req.params.id],function(err,result1,fields){
+        if (auth){
+            if (req.session.u_seq == result1[0].b_writer_seq){
+                sb.query(sql,[req.params.id],function(err,result,fields){
+                    if (err) throw err;
+                    console.log(result);
+                    res.redirect('/board');
+                });
+                console.log()
+            }else{
+                res.send("<script>alert('본인글만 삭제할 수 있습니다.');location.href='/';</script>");
+            }
+        }else{
+            res.send("<script>alert('로그인해야 접근가능합니다.');location.href='/login';</script>");
+        }
+
+    });
+
 });
 
 // Port Setting
