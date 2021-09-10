@@ -17,6 +17,7 @@ var session = require('express-session');
 var MySQLstore = require('express-mysql-session')(session);
 
 var db_config  = require('./config/db-config.json');
+var admin_config  = require('./config/admin-config.json');
 
 // database
 const sb = mysql.createConnection({
@@ -187,7 +188,7 @@ app.post('/write', (req,res) => {
 
 app.get('/board', (req, res) => {
     var auth = authIsOwner(req,res);
-    const sql = "SELECT b_seq,b_title,b_created,b_hit,b_like,b_type FROM tblboard WHERE b_status NOT IN(4) ORDER BY b_seq DESC";
+    const sql = "SELECT b_seq,b_title,b_created,b_hit,b_like,b_type,b_status FROM tblboard WHERE b_status NOT IN(4) ORDER BY b_seq DESC";
     sb.query(sql,function(err,result,fields){
         if(err) throw err;
 
@@ -210,9 +211,14 @@ app.get('/detail/:id', (req,res) => {
                     is_owner = true;
                 }
             }
+            if(is_owner==false && result[0].b_status != 1){
+                res.send("<script>alert('승인되지 않은 글은 본인만 열람할 수 있습니다.');location.href='/board';</script>");
+            }
+            else{
+                res.render('detail',{contents : result[0], check_login : auth, is_owner : is_owner});
+                console.log(result[0]);
+            }
 
-            res.render('detail',{contents : result[0], check_login : auth, is_owner : is_owner});
-            console.log(result[0]);
         }
 
     });
@@ -258,8 +264,8 @@ app.get('/delete/:id', (req,res) => {
     const sql = "UPDATE tblboard SET b_status = 4 WHERE b_seq = ?;";
     const sql1 = "SELECT * FROM tblboard WHERE b_seq = ?";
     sb.query(sql1,[req.params.id],function(err,result1,fields){
-        if (auth){
-            if (req.session.u_seq == result1[0].b_writer_seq){
+        if (auth || req.session.is_admin){
+            if (req.session.u_seq == result1[0].b_writer_seq || req.session.is_admin){
                 sb.query(sql,[req.params.id],function(err,result,fields){
                     if (err) throw err;
                     console.log(result);
@@ -272,9 +278,73 @@ app.get('/delete/:id', (req,res) => {
         }else{
             res.send("<script>alert('로그인해야 접근가능합니다.');location.href='/login';</script>");
         }
-
     });
+});
 
+app.get('/admin', (req,res) => {
+    console.log('admin 페이지 접속 감지');
+    res.render('admin');
+});
+
+app.post('/admin', (req,res) => {
+    const post = req.body;
+    req.session.is_admin = false;
+    if (post.a_id == admin_config.admin_id && post.a_pw == admin_config.admin_pw){
+        req.session.is_admin = true;
+        res.redirect('/adminpage');
+    }else{
+        res.send("<script>alert('잘못된 관리자입니다.');location.href='/admin';</script>");
+    }
+});
+
+app.get('/adminpage', (req,res) => {
+    if (req.session.is_admin){
+        console.log('adminpage 페이지 접속하였습니다.');
+        const sql = "SELECT * FROM tblboard ORDER BY b_seq DESC";
+        sb.query(sql,function(err,result,fields){
+            if(err) throw err;
+            res.render('adminpage',{contents : result});
+        });
+    }else{
+        res.send("<script>alert('잘못된 관리자입니다.');location.href='/admin';</script>");
+    }
+});
+
+app.get('/admindetail/:id', (req,res) => {
+    const sql = "SELECT * FROM tblboard WHERE b_seq = ?";
+    if (req.session.is_admin){
+        sb.query(sql,[req.params.id],function(err,result,fields){
+            if(err) throw err;
+
+            res.render('admindetail',{contents : result[0]});
+            console.log(result[0]);
+        });
+    }else{
+        res.send("<script>alert('잘못된 관리자입니다.');location.href='/admin';</script>");
+    }
+});
+app.get('/open/:id', (req,res) => {
+    const sql = "UPDATE tblboard SET b_status = 1 WHERE b_seq = ?;";
+    if (req.session.is_admin){
+        sb.query(sql,[req.params.id],function(err,result,fields){
+            if(err) throw err;
+            res.redirect('/adminpage');
+        });
+    }else{
+        res.send("<script>alert('잘못된 관리자입니다.');location.href='/admin';</script>");
+    }
+});
+
+app.get('/unopen/:id', (req,res) => {
+    const sql = "UPDATE tblboard SET b_status = 0 WHERE b_seq = ?;";
+    if (req.session.is_admin){
+        sb.query(sql,[req.params.id],function(err,result,fields){
+            if(err) throw err;
+            res.redirect('/adminpage');
+        });
+    }else{
+        res.send("<script>alert('잘못된 관리자입니다.');location.href='/admin';</script>");
+    }
 });
 
 app.use(function(req, res, next) {

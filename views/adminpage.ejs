@@ -14,7 +14,6 @@
     <script src="/js/mobile_menu.js" defer></script>
   </head>
   <body>
-    <%- include('header') %>
     <div class="table_box">
         <table>
             <thead>
@@ -24,13 +23,17 @@
                 <th>제목</th>
                 <th>만든날짜</th>
                 <th>조회수</th>
+                <th>글 상태</th>
             </tr>
             </thead>
             <tbody>
             <% contents.forEach(function(value){ %>
                 <tr>
-                    <td><%= value.b_seq %></td>
-
+                    <% if(value.b_status==4){ %>
+                        <td><%= value.b_seq %>[삭제]</td>
+                    <% }else{ %>
+                        <td><%= value.b_seq %></td>
+                    <% } %>
                     <% if(value.b_type==1){ %>
                         <td>[질문]</td>
                     <% }else if(value.b_type==2){ %>
@@ -41,16 +44,10 @@
                         <td></td>
                     <% } %>
 
-                    <% if(value.b_status==0){ %>
-                        <td><a href="/detail/<%= value.b_seq %>">관리자가 아직 승인하지 않은 글입니다.</a></td>
-                    <% }else if(value.b_status==1){ %>
-                        <td><a href="/detail/<%= value.b_seq %>"><%= value.b_title %></a></td>
-                    <% }else{ %>
-                        <td></td>
-                    <% } %>
-
+                    <td><a href="/admindetail/<%= value.b_seq %>"><%= value.b_title %></a></td>
                     <td><%= value.b_created %></td>
                     <td><%= value.b_hit %></td>
+                    <td><%= value.b_status %></td>
                 </tr>
             <% }); %>
             <tbody>
