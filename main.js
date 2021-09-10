@@ -149,7 +149,7 @@ app.get('/notice', (req, res) => {
 
 app.get('/mypage', (req, res) => {
     var auth = authIsOwner(req,res);
-    const sql1 = "SELECT b_seq,b_title,b_created,b_hit,b_like FROM tblboard WHERE b_status NOT LIKE "%4%" AND b_writer_seq = ";
+    const sql1 = "SELECT b_seq,b_title,b_created,b_hit,b_like FROM tblboard WHERE b_status NOT IN(4) AND b_writer_seq = ";
     const sqlValue = `"${req.session.u_seq}"`;
     const sql2 = " ORDER BY b_seq DESC";
     if (auth){
@@ -200,14 +200,20 @@ app.get('/detail/:id', (req,res) => {
     sb.query(sql,[req.params.id],function(err,result,fields){
         if(err) throw err;
         var is_owner = false;
-        if (req.session.u_seq !=undefined){
-            if (req.session.u_seq == result[0].b_writer_seq){
-                is_owner = true;
+        if (result[0].b_status == 4){
+            res.send("<script>alert('삭제된 글입니다.');location.href='/board';</script>");
+        }
+        else{
+            if (req.session.u_seq !=undefined){
+                if (req.session.u_seq == result[0].b_writer_seq){
+                    is_owner = true;
+                }
             }
+
+            res.render('detail',{contents : result[0], check_login : auth, is_owner : is_owner});
+            console.log(result[0]);
         }
 
-        res.render('detail',{contents : result[0], check_login : auth, is_owner : is_owner});
-        console.log(result[0]);
     });
 });
 
