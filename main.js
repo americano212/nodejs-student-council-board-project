@@ -76,7 +76,8 @@ app.get('/', (req, res) => {
 })
 
 app.get('/login', (req, res) => {
-    res.render('login');
+    var auth = authIsOwner(req,res);
+    res.render('login', {check_login : auth});
 });
 
 app.post('/login', (req, res) => {
@@ -134,7 +135,8 @@ var registerRouter = require('./public/js/register');
 app.use('/register', registerRouter);
 
 app.get('/write', (req, res) => {
-    res.render('write');
+    var auth = authIsOwner(req,res);
+    res.render('write', {check_login : auth});
 })
 
 app.post('/write', (req,res) => {
@@ -150,29 +152,30 @@ app.post('/write', (req,res) => {
 });
 
 app.get('/board', (req, res) => {
+    var auth = authIsOwner(req,res);
     const sql = "SELECT b_seq,b_title,b_created,b_hit,b_like FROM tblboard ORDER BY b_seq DESC";
     sb.query(sql,function(err,result,fields){
         if(err) throw err;
-        res.render('board',{contents : result});
+        res.render('board',{contents : result, check_login : auth});
     });
 });
 
 app.get('/detail/:id', (req,res) => {
-
+    var auth = authIsOwner(req,res);
     const sql = "SELECT * FROM tblboard WHERE b_seq = ?";
     sb.query(sql,[req.params.id],function(err,result,fields){
         if(err) throw err;
-        res.render('detail',{contents : result[0]});
+        res.render('detail',{contents : result[0], check_login : auth});
         console.log(result[0]);
     });
 });
 
 app.get('/edit/:id', (req,res) => {
-
+    var auth = authIsOwner(req,res);
     const sql = "SELECT * FROM tblboard WHERE b_seq = ?";
     sb.query(sql,[req.params.id],function(err,result,fields){
         if(err) throw err;
-        res.render('edit',{contents : result[0]});
+        res.render('edit',{contents : result[0], check_login : auth});
         console.log(result[0]);
     });
 });
