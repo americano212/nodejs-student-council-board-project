@@ -114,6 +114,19 @@ app.post('/login', (req, res) => {
 
 });
 
+app.get('/logout',(req,res) => {
+    console.log('logout');
+    if (req.session.is_login){
+        req.session.destroy(function(err){
+            if(err) throw err;
+            res.redirect('/');
+        })
+    }
+    else{
+        console.log('로그인 상태가 아닌데 로그아웃 호출');
+        res.redirect('/');
+    }
+})
 /*app.get('/register', (req, res) => {
     res.render('register');
 })*/
