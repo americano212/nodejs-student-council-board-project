@@ -153,7 +153,12 @@ app.get('/mypage', (req, res) => {
 
 app.get('/write', (req, res) => {
     var auth = authIsOwner(req,res);
-    res.render('write', {check_login : auth});
+    if (auth){
+        res.render('write', {check_login : auth});
+    }
+    else{
+        res.send("<script>alert('로그인해야 글쓰기가 가능합니다.');location.href='/login';</script>");
+    }
 })
 
 app.post('/write', (req,res) => {
@@ -199,8 +204,17 @@ app.get('/edit/:id', (req,res) => {
     const sql = "SELECT * FROM tblboard WHERE b_seq = ?";
     sb.query(sql,[req.params.id],function(err,result,fields){
         if(err) throw err;
-        res.render('edit',{contents : result[0], check_login : auth});
-        console.log(result[0]);
+        if (auth){
+            if (req.session.u_seq == result[0].b_writer_seq){
+                res.render('edit',{contents : result[0], check_login : auth});
+                console.log(result[0]);
+            }else{
+                res.send("<script>alert('본인글만 접근할 수 있습니다.');location.href='/';</script>");
+            }
+        }else{
+            res.send("<script>alert('로그인해야 접근가능합니다.');location.href='/login';</script>");
+        }
+
     });
 });
 
