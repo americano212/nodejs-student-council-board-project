@@ -149,7 +149,7 @@ app.get('/notice', (req, res) => {
 
 app.get('/mypage', (req, res) => {
     var auth = authIsOwner(req,res);
-    const sql1 = "SELECT b_seq,b_title,b_created,b_hit,b_like FROM tblboard WHERE b_status NOT IN(4) AND b_writer_seq = ";
+    const sql1 = "SELECT b_seq,b_title,b_created,b_hit,b_like,b_type FROM tblboard WHERE b_status NOT IN(4) AND b_writer_seq = ";
     const sqlValue = `"${req.session.u_seq}"`;
     const sql2 = " ORDER BY b_seq DESC";
     if (auth){
@@ -187,9 +187,10 @@ app.post('/write', (req,res) => {
 
 app.get('/board', (req, res) => {
     var auth = authIsOwner(req,res);
-    const sql = "SELECT b_seq,b_title,b_created,b_hit,b_like FROM tblboard WHERE b_status NOT IN(4) ORDER BY b_seq DESC";
+    const sql = "SELECT b_seq,b_title,b_created,b_hit,b_like,b_type FROM tblboard WHERE b_status NOT IN(4) ORDER BY b_seq DESC";
     sb.query(sql,function(err,result,fields){
         if(err) throw err;
+
         res.render('board',{contents : result, check_login : auth});
     });
 });
