@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/font.css" />
+    <link rel="stylesheet" href="/css/write.css" />
     <title>서강대학교 공학부 신문고</title>
     <script
       src="https://kit.fontawesome.com/2d323a629b.js"
@@ -14,20 +15,25 @@
   </head>
   <body>
     <%- include('header') %>
-    <form method="post">
-        <p><input type="text" name="title" placeholder="title"></p>
-        <select name="text_type">
-            <option value="0">선택안함</option>
-            <option value="1">질문</option>
-            <option value="2">건의</option>
-            <option value="3">홍보/제휴</option>
-        </select>
-        <p>
-            <textarea name="description" placeholder="description"></textarea>
-        </p>
-        <p>
-            <input type="submit">
-        </p>
-    </form>
+
+
+    <div class="write_">
+      <form method="post">
+          <p><input type="text" name="title" id="title" placeholder="제목"></p>
+          <select name="text_type" id="text_type">
+              <option value="0">선택안함</option>
+              <option value="1">질문</option>
+              <option value="2">건의</option>
+              <option value="3">홍보/제휴</option>
+          </select>
+          <p>
+              <textarea name="description" id="description" placeholder="내용"  style="﻿overflow-y:scroll; overflow-x:hidden; resize: none;"></textarea>
+          </p>
+          <p>
+              <input type="submit" id="submit">
+          </p>
+      </form>
+    </div>
+
   </body>
 </html>
