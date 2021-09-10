@@ -13,7 +13,9 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 // 로그인 상태를 유지하기 위해 express-session을 사용하였습니다
-let session = require('express-session');
+var session = require('express-session');
+var MySQLstore = require('express-mysql-session')(session);
+
 var db_config  = require('./config/db-config.json');
 
 // database
@@ -39,9 +41,38 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json()) // for parsing application/json
 
 
+app.use(favicon());
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+app.use(cookieParser());
+//app.use(express.static(path.join(__dirname, 'public')));
+// express-session 하겠다는 것
+app.use(session({
+    secret: 'secretkey',
+    resave: false,
+    saveUninitialized: true,
+    cookie : {
+        maxAge : 1000 * 60 * 60
+    }
+}));
+
+//function
+function authIsOwner(req,res) {
+    if (req.session.is_login){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+
 // Routes
 app.get('/', (req, res) => {
-    res.render('index');
+    console.log(req.session)
+    var auth = authIsOwner(req,res);
+    res.render('index', {check_login : auth});
 })
 
 app.get('/login', (req, res) => {
@@ -61,7 +92,12 @@ app.post('/login', (req, res) => {
              if (rows[0]!=undefined){
                  if (bcrypt.compareSync(loginPW, rows[0].u_password)){
                      console.log('로그인 성공');
-                     res.redirect('/');
+                     req.session.is_login = true;
+                     req.session.studentID = loginID;
+                     req.session.save(function(){
+                         return res.redirect('/');
+                     });
+
                  }
                  else{
                      console.log('패스워드 일치하지 않음');
@@ -146,18 +182,3 @@ app.post('/edit/:id', (req,res) => {
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
-
-
-
-app.use(favicon());
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
-app.use(cookieParser());
-//app.use(express.static(path.join(__dirname, 'public')));
-// exprees-session 하겠다는 것
-app.use(session({
-    secret: 'secretkey',
-    resave: false,
-    saveUninitialized: true,
-}));

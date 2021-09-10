@@ -16,7 +16,11 @@
   <body>
      <%- include('header') %>
 
-
+     <% if(check_login){ %>
+         <h2>login</h2>
+     <% }else{ %>
+         <h2>login x </h2>
+     <% } %>
 
     <div class="ad">
       <img src="/img/event.jpg" alt="" class="ad">
