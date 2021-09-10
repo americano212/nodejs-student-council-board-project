@@ -347,6 +347,20 @@ app.get('/unopen/:id', (req,res) => {
     }
 });
 
+app.get('/adminlogout',(req,res) => {
+    console.log('logout');
+    if (req.session.is_admin){
+        req.session.destroy(function(err){
+            if(err) throw err;
+            res.redirect('/');
+        })
+    }
+    else{
+        console.log('로그인 상태가 아닌데 로그아웃 호출');
+        res.redirect('/');
+    }
+})
+
 app.use(function(req, res, next) {
     res.status(404).send("<script>alert('잘못된 접근입니다.[404]');location.href='/';</script>");
 });
