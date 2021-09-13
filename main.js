@@ -257,15 +257,11 @@ app.get('/detail/:id', (req,res) => {
                 }
                 else{
                     sb.query(sql_hitup,[req.params.id],function(err,result_hit,fields){});
-                    res.render('detail',{contents : result[0], check_login : auth, is_owner : is_owner, replys : result_reply});
+                    res.render('detail',{contents : result[0], check_login : auth, is_owner : is_owner, replys : result_reply, self_seq : req.params.id});
                     console.log(result[0]);
                 }
-
             }
-
         });
-
-
     });
 });
 
@@ -285,10 +281,29 @@ app.post('/detail/:id', (req,res) => {
     }
     else{
         res.send("<script>alert('로그인 하셔야 댓글 작성이 가능합니다.');location.href='/board';</script>");
-        res.redirect(`/detail/${id}`    );
+        res.redirect(`/detail/${id}`);
     }
 });
 
+app.post('/detail/:id', (req,res) => {
+    var auth = authIsOwner(req,res);
+    const reply = req.body.reply;
+    var id = req.params.id;
+
+    const sql = 'INSERT INTO tblreply (r_content_seq,r_writer_seq,r_content,r_created) VALUES';
+    const sqlValue = `("${id}","${req.session.u_seq}","${reply}",NOW());`;
+    if(auth){
+        sb.query(sql+sqlValue,function(err,result,fields){
+            if (err) throw err;
+            console.log(result);
+            res.redirect(`/detail/${id}`);
+        });
+    }
+    else{
+        res.send("<script>alert('로그인 하셔야 댓글 작성이 가능합니다.');location.href='/board';</script>");
+        res.redirect(`/detail/${id}`);
+    }
+});
 
 app.get('/edit/:id', (req,res) => {
     var auth = authIsOwner(req,res);
