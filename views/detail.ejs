@@ -38,8 +38,8 @@
       </div>
     </div>
     <% if(is_owner){ %>
-        <input type="button" value="수정" onClick="location.href='/edit/<%= contents.b_seq %>'">
-        <input type="button" value="삭제" onClick="location.href='/delete/<%= contents.b_seq %>'">
+        <input type="button" value="수정" class="edit" onClick="location.href='/edit/<%= contents.b_seq %>'">
+        <input type="button" value="삭제" class="delete" onClick="location.href='/delete/<%= contents.b_seq %>'">
     <% }else{ %>
     <% } %>
 
