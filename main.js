@@ -80,7 +80,12 @@ function authIsOwner(req,res) {
 app.get('/', (req, res) => {
     console.log(req.session)
     var auth = authIsOwner(req,res);
-    res.render('index', {check_login : auth});
+    const sql = "SELECT b_seq,b_title,b_created,b_hit,b_like,b_type,b_status FROM tblboard WHERE b_status IN(1) ORDER BY b_seq DESC limit 5";
+    sb.query(sql,function(err,result,fields){
+        if(err) throw err;
+
+        res.render('index',{contents : result, check_login : auth});
+    });
 })
 
 app.get('/login', (req, res) => {
