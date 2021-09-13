@@ -23,10 +23,13 @@
                 <th>제목</th>
                 <th>만든날짜</th>
                 <th>조회수</th>
+                <th>공감수</th>
             </tr>
             </thead>
             <tbody>
-            <% contents.forEach(function(value){ %>
+              <% for(let i = 10*(page-1);i < Math.min(10*page,contents_len);i++){ %>
+                    <% var value = contents[i]; %>
+
                 <tr>
                     <td><%= value.b_seq %></td>
                     <% if(value.b_status==0){ %>
@@ -47,10 +50,21 @@
 
                     <td><%= value.b_created %></td>
                     <td><%= value.b_hit %></td>
+                    <td><%= value.b_like %></td>
                 </tr>
-            <% }); %>
+            <% }; %>
             <tbody>
         </table>
     </div>
+    <% if(page>10){ %>
+      <a href="/board?page=<%= (Math.ceil(page/10)-1)*10 %>">이전</a>
+    <% } %>
+    <% for(let i = (Math.floor((page-1)/5))*5+1;i <= Math.min(Math.floor(((page-1)/5))*5+5,Math.ceil(contents_len/10));i++) { %>
+      <a href="/board?page=<%= i %>"> <%= i %> </a>
+    <% } %>
+    <% if(Math.ceil(page/10) < Math.ceil(Math.ceil(contents_len/10)/10)){ %>
+      <a href="/board?page=<%= (Math.ceil(page/10)+1)*10+1 %>">다음</a>
+    <% } %>
   </body>
 </html>
+
