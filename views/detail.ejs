@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/font.css" />
+    <link rel="stylesheet" href="/css/detail.css" />
     <title>서강대학교 공학부 신문고</title>
     <script
       src="https://kit.fontawesome.com/2d323a629b.js"
@@ -14,26 +15,28 @@
   </head>
   <body>
     <%- include('header') %>
-    <table>
-        <tr>
-            <th>제목</th>
-            <th>만든날짜</th>
-            <th>조회수</th>
-        </tr>
-        <tr>
-            <td><%= contents.b_title %></td>
-            <td><%= contents.b_created %></td>
-            <td><%= contents.b_hit %></td>
-        </tr>
-    </table>
-    <div class="main_content">
+
+    <div class="content">
+      <div class="title">
+        <h2>
+          <% if(contents.b_type==1){ %>
+              [질문]&nbsp
+          <% }else if(contents.b_type==2){ %>
+              [건의]&nbsp
+          <% }else if(contents.b_type==3){ %>
+              [홍보/제휴]&nbsp
+          <% } %>
+          <%= contents.b_title %>
+        </h2>
+        <span class="hit" style="color:#8889A4">
+          <%= contents.b_created %>&nbsp|&nbsp조회수&nbsp<%= contents.b_hit %>
+        </span>
+      </div>
+      <hr color="#8889A4" size="1px">
+      <div class="text_">
         <%= contents.b_content %>
+      </div>
     </div>
-    <% if(is_owner){ %>
-        <input type="button" value="수정" onClick="location.href='/edit/<%= contents.b_seq %>'">
-        <input type="button" value="삭제" onClick="location.href='/delete/<%= contents.b_seq %>'">
-    <% }else{ %>
-    <% } %>
 
   </body>
 </html>
