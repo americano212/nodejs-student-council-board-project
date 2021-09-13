@@ -1,0 +1,29 @@
+.content{
+  padding-right:30px;
+  padding-left:30px;
+  padding-top:20px;
+  padding-bottom:40px;
+  margin-top:50px;
+  margin-left:100px;
+  margin-right:100px;
+  background-color:#F3F4FF;
+  border-radius:20px;
+}
+
+.text_{
+  margin-top:30px;
+}
+
+/* For small screen */
+@media screen and (max-width: 943px) {
+  .content{
+    padding-right:15px;
+    padding-left:15px;
+    padding-top:10px;
+    padding-bottom:20px;
+    margin-top:20px;
+    margin-left:40px;
+    margin-right:40px;
+  }
+
+}
