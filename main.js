@@ -229,8 +229,8 @@ app.get('/board', (req, res) => {
     const sql = "SELECT b_seq,b_title,b_created,b_hit,b_like,b_type,b_status FROM tblboard WHERE b_status NOT IN(4) ORDER BY b_seq DESC";
     sb.query(sql,function(err,result,fields){
         if(err) throw err;
-
-        res.render('board',{contents : result, check_login : auth});
+        console.log(result.length);
+        res.render('board',{contents : result, check_login : auth, contents_len : result.length});
     });
 });
 
