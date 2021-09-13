@@ -15,7 +15,7 @@ var cookieParser = require('cookie-parser');
 // 로그인 상태를 유지하기 위해 express-session을 사용하였습니다
 var session = require('express-session');
 var MySQLstore = require('express-mysql-session')(session);
-
+var requestIp = require('request-ip');
 var db_config  = require('./config/db-config.json');
 var admin_config  = require('./config/admin-config.json');
 //const { smtpTransport } = require('./config/email');
@@ -81,6 +81,7 @@ app.get('/', (req, res) => {
     console.log(req.session)
     var auth = authIsOwner(req,res);
     const sql = "SELECT b_seq,b_title,b_created,b_hit,b_like,b_type,b_status FROM tblboard WHERE b_status IN(1) ORDER BY b_seq DESC limit 5";
+    console.log(requestIp.getClientIp(req));
     sb.query(sql,function(err,result,fields){
         if(err) throw err;
 
