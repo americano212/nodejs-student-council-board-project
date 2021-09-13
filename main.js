@@ -238,6 +238,7 @@ app.get('/detail/:id', (req,res) => {
     var auth = authIsOwner(req,res);
     const sql = "SELECT * FROM tblboard WHERE b_seq = ?";
     const sql_reply = "SELECT * FROM tblreply WHERE r_content_seq = ?";
+    const sql_hitup = "UPDATE tblboard SET b_hit = b_hit + 1 WHERE b_seq = ?";
     sb.query(sql,[req.params.id],function(err,result,fields){
         sb.query(sql_reply,[req.params.id],function(err,result_reply,fields){
             if(err) throw err;
@@ -255,6 +256,7 @@ app.get('/detail/:id', (req,res) => {
                     res.send("<script>alert('승인되지 않은 글은 본인만 열람할 수 있습니다.');location.href='/board';</script>");
                 }
                 else{
+                    sb.query(sql_hitup,[req.params.id],function(err,result_hit,fields){});
                     res.render('detail',{contents : result[0], check_login : auth, is_owner : is_owner, replys : result_reply});
                     console.log(result[0]);
                 }
