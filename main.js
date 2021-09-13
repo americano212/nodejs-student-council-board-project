@@ -226,11 +226,15 @@ app.post('/write', (req,res) => {
 
 app.get('/board', (req, res) => {
     var auth = authIsOwner(req,res);
+    var url = require('url');
+    var queryData = url.parse(req.url, true).query;
+    if(!queryData.page){
+      queryData.page = 1;
+    }
     const sql = "SELECT b_seq,b_title,b_created,b_hit,b_like,b_type,b_status FROM tblboard WHERE b_status NOT IN(4) ORDER BY b_seq DESC";
     sb.query(sql,function(err,result,fields){
         if(err) throw err;
-        console.log(result.length);
-        res.render('board',{contents : result, check_login : auth, contents_len : result.length});
+        res.render('board',{contents : result, check_login : auth, contents_len : result.length, page : queryData.page});
     });
 });
 
