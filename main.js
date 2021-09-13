@@ -15,7 +15,6 @@ var cookieParser = require('cookie-parser');
 // 로그인 상태를 유지하기 위해 express-session을 사용하였습니다
 var session = require('express-session');
 var MySQLstore = require('express-mysql-session')(session);
-
 var db_config  = require('./config/db-config.json');
 var admin_config  = require('./config/admin-config.json');
 //const { smtpTransport } = require('./config/email');
@@ -226,11 +225,15 @@ app.post('/write', (req,res) => {
 
 app.get('/board', (req, res) => {
     var auth = authIsOwner(req,res);
+    var url = require('url');
+    var queryData = url.parse(req.url, true).query;
+    if(!queryData.page){
+      queryData.page = 1;
+    }
     const sql = "SELECT b_seq,b_title,b_created,b_hit,b_like,b_type,b_status FROM tblboard WHERE b_status NOT IN(4) ORDER BY b_seq DESC";
     sb.query(sql,function(err,result,fields){
         if(err) throw err;
-
-        res.render('board',{contents : result, check_login : auth});
+        res.render('board',{contents : result, check_login : auth, contents_len : result.length, page : queryData.page});
     });
 });
 

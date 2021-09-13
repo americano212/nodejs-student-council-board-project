@@ -24,6 +24,7 @@
     "cookie-parser": "^1.4.5",
     "debug": "~2.6.9",
     "ejs": "^3.1.6",
+    "ejs-lint": "^1.2.1",
     "express": "^4.17.1",
     "express-ejs-layouts": "^2.5.1",
     "express-mysql-session": "^2.1.7",
