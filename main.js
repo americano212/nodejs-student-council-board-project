@@ -237,30 +237,56 @@ app.get('/board', (req, res) => {
 app.get('/detail/:id', (req,res) => {
     var auth = authIsOwner(req,res);
     const sql = "SELECT * FROM tblboard WHERE b_seq = ?";
+    const sql_reply = "SELECT * FROM tblreply WHERE r_content_seq = ?";
     sb.query(sql,[req.params.id],function(err,result,fields){
-        if(err) throw err;
-        var is_owner = false;
-        if (result[0].b_status == 4){
-            res.send("<script>alert('삭제된 글입니다.');location.href='/board';</script>");
-        }
-        else{
-            if (req.session.u_seq !=undefined){
-                if (req.session.u_seq == result[0].b_writer_seq){
-                    is_owner = true;
-                }
-            }
-            if(is_owner==false && result[0].b_status != 1){
-                res.send("<script>alert('승인되지 않은 글은 본인만 열람할 수 있습니다.');location.href='/board';</script>");
+        sb.query(sql_reply,[req.params.id],function(err,result_reply,fields){
+            if(err) throw err;
+            var is_owner = false;
+            if (result[0].b_status == 4){
+                res.send("<script>alert('삭제된 글입니다.');location.href='/board';</script>");
             }
             else{
-                res.render('detail',{contents : result[0], check_login : auth, is_owner : is_owner});
-                console.log(result[0]);
+                if (req.session.u_seq !=undefined){
+                    if (req.session.u_seq == result[0].b_writer_seq){
+                        is_owner = true;
+                    }
+                }
+                if(is_owner==false && result[0].b_status != 1){
+                    res.send("<script>alert('승인되지 않은 글은 본인만 열람할 수 있습니다.');location.href='/board';</script>");
+                }
+                else{
+                    res.render('detail',{contents : result[0], check_login : auth, is_owner : is_owner, replys : result_reply});
+                    console.log(result[0]);
+                }
+
             }
 
-        }
+        });
+
 
     });
 });
+
+app.post('/detail/:id', (req,res) => {
+    var auth = authIsOwner(req,res);
+    const reply = req.body.reply;
+    var id = req.params.id;
+
+    const sql = 'INSERT INTO tblreply (r_content_seq,r_writer_seq,r_content,r_created) VALUES';
+    const sqlValue = `("${id}","${req.session.u_seq}","${reply}",NOW());`;
+    if(auth){
+        sb.query(sql+sqlValue,function(err,result,fields){
+            if (err) throw err;
+            console.log(result);
+            res.redirect(`/detail/${id}`);
+        });
+    }
+    else{
+        res.send("<script>alert('로그인 하셔야 댓글 작성이 가능합니다.');location.href='/board';</script>");
+        res.redirect(`/detail/${id}`    );
+    }
+});
+
 
 app.get('/edit/:id', (req,res) => {
     var auth = authIsOwner(req,res);

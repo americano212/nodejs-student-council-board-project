@@ -18,7 +18,7 @@ var bodyParser = require('body-parser');
 // 로그인 상태를 유지하기 위해 express-session을 사용하였습니다
 let session = require('express-session');
 var db_config  = require('../../config/db-config.json');
-//const { smtpTransport } = require('../../config/email');
+
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }))
 // get요청시 페이지를 렌더하는데 title에 '회원가입'이라는 변수를 가지고 간다.
@@ -48,7 +48,6 @@ router.post('/', (req, res, next) => {
     let pw =req.body.pw;
     let email_addr =req.body.email_addr;*/
     // 비밀번호를 암호화 한다.(bcrypt에서 지원하는 hashSync라는 함수로 암호화)
-
     pw = bcrypt.hashSync(pw);
     // db에 저장하는 기능
     let sql = { name,id_number,major, pw,email_addr };

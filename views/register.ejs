@@ -44,9 +44,7 @@
         }
       }
       function email_code(){
-          /*console.log("email 전송");
-          alert("메일 전송");
-          var email_address=document.getElementById("email_addr").value;
+          /*var email_address=document.getElementById("email_addr").value;
           if(email_address=="")
           {
             alert("이메일을 입력해주세요");
@@ -54,21 +52,8 @@
           else{
             email_address += "@sogang.ac.kr";
             email_flag = 1;
-          }
-          fetch("/mailsend", {
-                method: "POST",
-                headers: {
-                "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                email_addr: email_address,
-                }),
-            });
-                .then((response) => response.json())
-                .then((data) => console.log(data))
-
+          }*/
           //이메일 보내기
-          */
       }
       function email_confirm(){
         /*
@@ -109,12 +94,10 @@
         </p>
         <input id="pw" type="password" name="pw" autocomplete="off" placeholder="비밀번호"><br>
         <input id="pw_confirm" type="password" autocomplete="off" placeholder="비밀번호 확인"><br>
-
         <input id="email_addr" type="text" name="email_addr" autocomplete="off" placeholder="서강 이메일 주소"><span id="sogang_email">@sogang.ac.kr</span>
-        <input id="email_code_" type="button" value="인증번호 전송" onclick="email_code();"><br>
-
+        <input id="email_code_" type="button" value="인증번호 전송" onclick="email_code()"><br>
         <input id="email_code" type="number" autocomplete="off" placeholder="인증번호 입력">
-        <input id="email_code_confirm" type="button" value="인증번호 확인" onclick="email_confirm();"><br>
+        <input id="email_code_confirm" type="button" value="인증번호 확인" onclick="email_confirm()"><br>
 
         <input id="register_submit" type="submit" value="가입하기" onclick="submit_register()">
       </form>
