@@ -18,6 +18,7 @@ var MySQLstore = require('express-mysql-session')(session);
 
 var db_config  = require('./config/db-config.json');
 var admin_config  = require('./config/admin-config.json');
+//const { smtpTransport } = require('./config/email');
 
 // database
 const sb = mysql.createConnection({
@@ -141,6 +142,38 @@ app.get('/logout',(req,res) => {
 })*/
 var registerRouter = require('./public/js/register');
 app.use('/register', registerRouter);
+
+var generateRandom = function (min, max) {
+    var ranNum = Math.floor(Math.random()*(max-min+1)) + min;
+    return ranNum;
+};
+/*app.post('/mailsend', (req, res) => {
+    console.log("메일 발송 준비");
+    const number = generateRandom(111111,999999);
+    const sendEmail = req.body.email_addr;
+    const mailOptions = {
+        from: "wq0212@naver.com",
+        to: sendEmail+"@sogang.ac.kr",
+        subject: "[공학부 학생회]인증 관련 이메일 입니다",
+        text: "오른쪽 숫자 6자리를 입력해주세요 : " + number
+    };
+    const result = smtpTransport.sendMail(mailOptions, (error, responses) => {
+        if (error) {
+            console.log("email fail");
+            return res.status(statusCode.OK).send(util.fail(statusCode.BAD_REQUEST, responseMsg.AUTH_EMAIL_FAIL));
+
+        } else {
+          console.log("email success");
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, responseMsg.AUTH_EMAIL_SUCCESS, {
+                number: number
+            }))
+        }
+        smtpTransport.close();
+    });
+    res.send("<script>alert('메일이 발송되었습니다.');</script>")
+})
+*/
+
 
 app.get('/notice', (req, res) => {
     console.log(req.session)
