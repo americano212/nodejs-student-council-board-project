@@ -24,6 +24,9 @@ table {
   width:60%;
   text-align:left;
 }
+#title{
+  text-align:center;
+}
 .date{
   width:20%;
 }
