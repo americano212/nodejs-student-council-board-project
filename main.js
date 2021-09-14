@@ -308,8 +308,7 @@ app.post('/detail/:id', (req,res) => {
         });
     }
     else{
-        res.send("<script>alert('로그인 하셔야 댓글 작성이 가능합니다.');location.href='/board';</script>");
-        res.redirect(`/detail/${id}`);
+        res.send(`<script>alert('로그인 하셔야 댓글 작성이 가능합니다.');location.href='/detail/${id}';</script>`);
     }
 });
 
