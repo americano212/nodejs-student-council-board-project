@@ -161,7 +161,7 @@ app.get('/mailsend', (req, res) => {
     sendEmail = req.query.email_addr;
     req.session.email_addr = sendEmail;
     const mailOptions = {
-        from: "wq0212@naver.com",
+        from: "sgu.eng.studentcouncil@gmail.com",
         to: sendEmail+"@sogang.ac.kr",
         subject: "[공학부 학생회]인증 관련 이메일 입니다",
         text: "오른쪽 숫자 6자리를 입력해주세요 : " + number
