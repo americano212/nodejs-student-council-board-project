@@ -207,13 +207,18 @@ app.get('/notice', (req, res) => {
 
 app.get('/mypage', (req, res) => {
     var auth = authIsOwner(req,res);
+    var url = require('url');
+    var queryData = url.parse(req.url, true).query;
+    if(!queryData.page){
+      queryData.page = 1;
+    }
     const sql1 = "SELECT b_seq,b_title,b_created,b_hit,b_like,b_type FROM tblboard WHERE b_status NOT IN(4) AND b_writer_seq = ";
     const sqlValue = `"${req.session.u_seq}"`;
     const sql2 = " ORDER BY b_seq DESC";
     if (auth){
         sb.query(sql1+sqlValue+sql2,function(err,result,fields){
             if(err) throw err;
-            res.render('mypage',{contents : result, check_login : auth});
+            res.render('mypage',{contents : result, check_login : auth, contents_len: result.length, page : queryData.page});
         });
     }else{
         res.send("<script>alert('로그인해야 이용하실 수 있습니다.');location.href='/login';</script>");

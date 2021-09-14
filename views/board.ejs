@@ -15,56 +15,61 @@
   </head>
   <body>
     <%- include('header') %>
+    <h2 class="free_board">
+      자유게시판
+    </h2>
     <div class="table_box">
         <table>
             <thead>
             <tr>
-                <th>번호</th>
-                <th>제목</th>
-                <th>만든날짜</th>
-                <th>조회수</th>
-                <th>공감수</th>
+                <th class="number">No.</th>
+                <th class="title" id="title">제목</th>
+                <th class="date">날짜</th>
+                <th class="hit">조회수</th>
             </tr>
             </thead>
             <tbody>
               <% for(let i = 10*(page-1);i < Math.min(10*page,contents_len);i++){ %>
                     <% var value = contents[i]; %>
-
                 <tr>
-                    <td><%= value.b_seq %></td>
+                    <td class="number"><a href="/detail/<%= value.b_seq %>"><%= value.b_seq %></a></td>
                     <% if(value.b_status==0){ %>
-                        <td><a href="/detail/<%= value.b_seq %>">관리자가 아직 승인하지 않은 글입니다.</a></td>
+                        <td class="title" id="cantsee"><a href="/detail/<%= value.b_seq %>">관리자가 아직 승인하지 않은 글입니다.</a></td>
                     <% }else if(value.b_status==1){ %>
                         <% if(value.b_type==1){ %>
-                            <td><a href="/detail/<%= value.b_seq %>">[질문] <%= value.b_title %></a></td>
+                            <td class="title"><a href="/detail/<%= value.b_seq %>">[질문] <%= value.b_title %></a></td>
                         <% }else if(value.b_type==2){ %>
-                            <td><a href="/detail/<%= value.b_seq %>">[건의] <%= value.b_title %></a></td>
+                            <td class="title"><a href="/detail/<%= value.b_seq %>">[건의] <%= value.b_title %></a></td>
                         <% }else if(value.b_type==3){ %>
-                            <td><a href="/detail/<%= value.b_seq %>">[홍보/제휴] <%= value.b_title %></a></td>
+                            <td class="title"><a href="/detail/<%= value.b_seq %>">[홍보/제휴] <%= value.b_title %></a></td>
                         <% }else{ %>
-                            <td><a href="/detail/<%= value.b_seq %>"> <%= value.b_title %></a></td>
+                            <td class="title"><a href="/detail/<%= value.b_seq %>"> <%= value.b_title %></a></td>
                         <% } %>
                     <% }else{ %>
                         <td></td>
                     <% } %>
 
-                    <td><%= value.b_created %></td>
-                    <td><%= value.b_hit %></td>
-                    <td><%= value.b_like %></td>
+                    <td class="date"><a href="/detail/<%= value.b_seq %>"><%= value.b_created %></a></td>
+                    <td class="hit"><a href="/detail/<%= value.b_seq %>"><%= value.b_hit %></a></td>
                 </tr>
             <% }; %>
             <tbody>
         </table>
     </div>
-    <% if(page>10){ %>
-      <a href="/board?page=<%= (Math.ceil(page/10)-1)*10 %>">이전</a>
-    <% } %>
-    <% for(let i = (Math.floor((page-1)/5))*5+1;i <= Math.min(Math.floor(((page-1)/5))*5+5,Math.ceil(contents_len/10));i++) { %>
-      <a href="/board?page=<%= i %>"> <%= i %> </a>
-    <% } %>
-    <% if(Math.ceil(page/10) < Math.ceil(Math.ceil(contents_len/10)/10)){ %>
-      <a href="/board?page=<%= (Math.ceil(page/10)+1)*10+1 %>">다음</a>
-    <% } %>
+    <div class="paging">
+      <% if(page>10){ %>
+        <a href="/board?page=<%= (Math.ceil(page/10)-1)*10 %>">이전</a>
+      <% } %>
+      <% for(let i = (Math.floor((page-1)/5))*5+1;i <= Math.min(Math.floor(((page-1)/5))*5+5,Math.ceil(contents_len/10));i++) { %>
+        <% if(page==i){ %>
+          <a href="/board?page=<%= i %>" class="color_page"> <%= i %> </a>
+        <% }else{ %>
+          <a href="/board?page=<%= i %>"> <%= i %> </a>
+        <% } %>
+      <% } %>
+      <% if(Math.ceil(page/10) < Math.ceil(Math.ceil(contents_len/10)/10)){ %>
+        <a href="/board?page=<%= (Math.ceil(page/10)+1)*10+1 %>">다음</a>
+      <% } %>
+    </div>
   </body>
 </html>
-
