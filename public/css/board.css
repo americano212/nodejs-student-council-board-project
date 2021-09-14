@@ -1,3 +1,11 @@
+:root {
+  --text-color: #000000;
+  --background-color: #F0F9FF;
+  --accent-color: #CBE6FA;
+  --navy-color: #3D4094;
+  --purple-color:#8D90C7;
+}
+
 .table_box {
     margin-top: 20px;
 }
