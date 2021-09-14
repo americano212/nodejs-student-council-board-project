@@ -18,7 +18,7 @@ var MySQLstore = require('express-mysql-session')(session);
 var requestIp = require('request-ip');
 var db_config  = require('./config/db-config.json');
 var admin_config  = require('./config/admin-config.json');
-//const { smtpTransport } = require('./config/email');
+const { smtpTransport } = require('./config/email');
 
 // database
 const sb = mysql.createConnection({
@@ -153,33 +153,51 @@ var generateRandom = function (min, max) {
     var ranNum = Math.floor(Math.random()*(max-min+1)) + min;
     return ranNum;
 };
-/*app.post('/mailsend', (req, res) => {
+
+var check_number,sendEmail;
+app.get('/mailsend', (req, res) => {
     console.log("메일 발송 준비");
     const number = generateRandom(111111,999999);
-    const sendEmail = req.body.email_addr;
+    sendEmail = req.query.email_addr;
+    req.session.email_addr = sendEmail;
     const mailOptions = {
         from: "wq0212@naver.com",
         to: sendEmail+"@sogang.ac.kr",
         subject: "[공학부 학생회]인증 관련 이메일 입니다",
         text: "오른쪽 숫자 6자리를 입력해주세요 : " + number
     };
+    console.log(mailOptions)
     const result = smtpTransport.sendMail(mailOptions, (error, responses) => {
         if (error) {
             console.log("email fail");
-            return res.status(statusCode.OK).send(util.fail(statusCode.BAD_REQUEST, responseMsg.AUTH_EMAIL_FAIL));
 
         } else {
           console.log("email success");
-            return res.status(statusCode.OK).send(util.success(statusCode.OK, responseMsg.AUTH_EMAIL_SUCCESS, {
-                number: number
-            }))
+
         }
         smtpTransport.close();
     });
-    res.send("<script>alert('메일이 발송되었습니다.');</script>")
+    let checkemail = new Object();
+    checkemail.number = number;
+    check_number = number;
+    res.send("<script>alert('메일을 전송했습니다.');</script>");
 })
-*/
 
+app.get('/mailcheck',(req,res) => {
+    console.log(req.query);
+    console.log(check_number);
+    if(check_number==undefined){
+        res.send("<script>alert('메일주소를 입력하고, 인증번호를 먼저 전송해주세요.');</script>");
+    }
+    else if(check_number!=req.query.email_code){
+        res.send("<script>alert('잘못된 코드입니다. 지속된다면 관리자에 문의주세요.');</script>");
+    }
+    else{
+        req.session.is_email = true;
+        res.send("<script>alert('인증성공');</script>");
+    }
+
+});
 
 app.get('/notice', (req, res) => {
     console.log(req.session)
