@@ -34,7 +34,7 @@
                 <tr>
                     <td class="number"><a href="/detail/<%= value.b_seq %>"><%= value.b_seq %></a></td>
                     <% if(value.b_status==0){ %>
-                        <td class="title"><a href="/detail/<%= value.b_seq %>">관리자가 아직 승인하지 않은 글입니다.</a></td>
+                        <td class="title" id="cantsee"><a href="/detail/<%= value.b_seq %>">관리자가 아직 승인하지 않은 글입니다.</a></td>
                     <% }else if(value.b_status==1){ %>
                         <% if(value.b_type==1){ %>
                             <td class="title"><a href="/detail/<%= value.b_seq %>">[질문] <%= value.b_title %></a></td>
