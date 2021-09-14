@@ -10,6 +10,28 @@ table {
   margin-left:auto;
   margin-right:auto;
   text-align: center;
+  width:80%;
+}
+
+.free_board{
+  margin-left:13%;
+}
+
+.number{
+  width:8%;
+}
+.title{
+  width:60%;
+}
+.date{
+  width:20%;
+}
+.hit{
+  width:8%;
+}
+
+.color_page{
+  color:#ff0000;
 }
 
 table thead th {
@@ -35,4 +57,28 @@ table td {
   vertical-align: top;
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
+}
+
+.paging{
+  position: absolute;
+  top: 90%;
+  left:50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+}
+
+/* For small screen */
+@media screen and (max-width: 943px) {
+  table{
+    width:90%;
+  }
+  .free_board{
+    margin_left:10%;
+  }
+  .date{
+    display:none;
+  }
+  .hit{
+    display:none;
+  }
 }
