@@ -11,7 +11,7 @@
       src="https://kit.fontawesome.com/2d323a629b.js"
       crossorigin="anonymous"
     ></script>
-    <script src="/js/mobile_menu.js" defer></script>
+
   </head>
   <body>
     <%- include('header') %>
@@ -34,7 +34,7 @@
       </div>
       <hr color="#8889A4" size="1px">
       <div class="text_">
-        <%= contents.b_content %>
+        <%- description_ %>
       </div>
       <% if(is_owner){ %>
         <input type="button" value="수정" class="edit" onClick="location.href='/edit/<%= contents.b_seq %>'">
@@ -42,7 +42,24 @@
       <% }else{ %>
       <% } %>
     </div>
-    
+    <div class="reply_box">
+        <h2>Comments</h2>
+        <hr>
+        <div class="reply_create_box">
+            <form method="post">
+                <textarea name="reply" id="reply" placeholder="댓글"></textarea>
+                <input type="submit" id="submit">
+            </form>
+        </div>
+        <hr>
+        <% replys.forEach(function(value){ %>
+            <div class="one_reply_box">
+                <hr>
+                <p><%= value.r_created %></p>
+                <p><%= value.r_content %></p>
+            </div>
+        <% }); %>
+    </div>
 
   </body>
 </html>

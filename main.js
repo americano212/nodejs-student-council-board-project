@@ -15,9 +15,10 @@ var cookieParser = require('cookie-parser');
 // 로그인 상태를 유지하기 위해 express-session을 사용하였습니다
 var session = require('express-session');
 var MySQLstore = require('express-mysql-session')(session);
+var requestIp = require('request-ip');
 var db_config  = require('./config/db-config.json');
 var admin_config  = require('./config/admin-config.json');
-//const { smtpTransport } = require('./config/email');
+const { smtpTransport } = require('./config/email');
 
 // database
 const sb = mysql.createConnection({
@@ -38,9 +39,12 @@ sb.connect(function(err){
 app.use(express.static(__dirname+'/public'));
 app.set('view engine', 'ejs');
 app.set('views', './views');
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({ limit:'50mb', extended: true }));
+app.use(bodyParser.json({limit:'50mb'})) // for parsing application/json
 
+const axios = require("axios");
+axios.default.timeout = 5 * 1000;
+process.on("uncaughtException", function(err) { console.error("uncaughtException (Node is alive)", err); });
 
 app.use(favicon());
 app.use(logger('dev'));
@@ -80,6 +84,7 @@ app.get('/', (req, res) => {
     console.log(req.session)
     var auth = authIsOwner(req,res);
     const sql = "SELECT b_seq,b_title,b_created,b_hit,b_like,b_type,b_status FROM tblboard WHERE b_status IN(1) ORDER BY b_seq DESC limit 5";
+    console.log(requestIp.getClientIp(req));
     sb.query(sql,function(err,result,fields){
         if(err) throw err;
 
@@ -151,33 +156,51 @@ var generateRandom = function (min, max) {
     var ranNum = Math.floor(Math.random()*(max-min+1)) + min;
     return ranNum;
 };
-/*app.post('/mailsend', (req, res) => {
+
+var check_number,sendEmail;
+app.get('/mailsend', (req, res) => {
     console.log("메일 발송 준비");
     const number = generateRandom(111111,999999);
-    const sendEmail = req.body.email_addr;
+    sendEmail = req.query.email_addr;
+    req.session.email_addr = sendEmail;
     const mailOptions = {
-        from: "wq0212@naver.com",
+        from: "sgu.eng.studentcouncil@gmail.com",
         to: sendEmail+"@sogang.ac.kr",
         subject: "[공학부 학생회]인증 관련 이메일 입니다",
         text: "오른쪽 숫자 6자리를 입력해주세요 : " + number
     };
+    console.log(mailOptions)
     const result = smtpTransport.sendMail(mailOptions, (error, responses) => {
         if (error) {
             console.log("email fail");
-            return res.status(statusCode.OK).send(util.fail(statusCode.BAD_REQUEST, responseMsg.AUTH_EMAIL_FAIL));
 
         } else {
           console.log("email success");
-            return res.status(statusCode.OK).send(util.success(statusCode.OK, responseMsg.AUTH_EMAIL_SUCCESS, {
-                number: number
-            }))
+
         }
         smtpTransport.close();
     });
-    res.send("<script>alert('메일이 발송되었습니다.');</script>")
+    let checkemail = new Object();
+    checkemail.number = number;
+    check_number = number;
+    res.send("<script>alert('메일을 전송했습니다.');</script>");
 })
-*/
 
+app.get('/mailcheck',(req,res) => {
+    console.log(req.query);
+    console.log(check_number);
+    if(check_number==undefined){
+        res.send("<script>alert('메일주소를 입력하고, 인증번호를 먼저 전송해주세요.');</script>");
+    }
+    else if(check_number!=req.query.email_code){
+        res.send("<script>alert('잘못된 코드입니다. 지속된다면 관리자에 문의주세요.');</script>");
+    }
+    else{
+        req.session.is_email = true;
+        res.send("<script>alert('인증성공');</script>");
+    }
+
+});
 
 app.get('/notice', (req, res) => {
     console.log(req.session)
@@ -187,13 +210,18 @@ app.get('/notice', (req, res) => {
 
 app.get('/mypage', (req, res) => {
     var auth = authIsOwner(req,res);
+    var url = require('url');
+    var queryData = url.parse(req.url, true).query;
+    if(!queryData.page){
+      queryData.page = 1;
+    }
     const sql1 = "SELECT b_seq,b_title,b_created,b_hit,b_like,b_type FROM tblboard WHERE b_status NOT IN(4) AND b_writer_seq = ";
     const sqlValue = `"${req.session.u_seq}"`;
     const sql2 = " ORDER BY b_seq DESC";
     if (auth){
         sb.query(sql1+sqlValue+sql2,function(err,result,fields){
             if(err) throw err;
-            res.render('mypage',{contents : result, check_login : auth});
+            res.render('mypage',{contents : result, check_login : auth, contents_len: result.length, page : queryData.page});
         });
     }else{
         res.send("<script>alert('로그인해야 이용하실 수 있습니다.');location.href='/login';</script>");
@@ -213,8 +241,10 @@ app.get('/write', (req, res) => {
 
 app.post('/write', (req,res) => {
     const post = req.body;
+    const desc = post.description;
+    const descript = Buffer.from(desc, "utf8").toString('base64');
     const sql = 'INSERT INTO tblboard (b_title,b_type,b_content,b_created,b_writer_seq,b_status) VALUES';
-    const sqlValue = `("${post.title}","${post.text_type}","${post.description}",NOW(),"${req.session.u_seq}",0);`;
+    const sqlValue = `("${post.title}","${post.text_type}","${descript}",NOW(),"${req.session.u_seq}",0);`;
 
     sb.query(sql+sqlValue,req.body,function(err,result,fields){
         if (err) throw err;
@@ -240,29 +270,72 @@ app.get('/board', (req, res) => {
 app.get('/detail/:id', (req,res) => {
     var auth = authIsOwner(req,res);
     const sql = "SELECT * FROM tblboard WHERE b_seq = ?";
+    const sql_reply = "SELECT * FROM tblreply WHERE r_content_seq = ?";
+    const sql_hitup = "UPDATE tblboard SET b_hit = b_hit + 1 WHERE b_seq = ?";
     sb.query(sql,[req.params.id],function(err,result,fields){
-        if(err) throw err;
-        var is_owner = false;
-        if (result[0].b_status == 4){
-            res.send("<script>alert('삭제된 글입니다.');location.href='/board';</script>");
-        }
-        else{
-            if (req.session.u_seq !=undefined){
-                if (req.session.u_seq == result[0].b_writer_seq){
-                    is_owner = true;
-                }
-            }
-            if(is_owner==false && result[0].b_status != 1){
-                res.send("<script>alert('승인되지 않은 글은 본인만 열람할 수 있습니다.');location.href='/board';</script>");
+        sb.query(sql_reply,[req.params.id],function(err,result_reply,fields){
+            if(err) throw err;
+            var is_owner = false;
+            const b_content = Buffer.from(result[0].b_content, "base64").toString('utf8');
+            if (result[0].b_status == 4){
+                res.send("<script>alert('삭제된 글입니다.');location.href='/board';</script>");
             }
             else{
-                res.render('detail',{contents : result[0], check_login : auth, is_owner : is_owner});
-                console.log(result[0]);
+                if (req.session.u_seq !=undefined){
+                    if (req.session.u_seq == result[0].b_writer_seq){
+                        is_owner = true;
+                    }
+                }
+                if(is_owner==false && result[0].b_status != 1){
+                    res.send("<script>alert('승인되지 않은 글은 본인만 열람할 수 있습니다.');location.href='/board';</script>");
+                }
+                else{
+                    sb.query(sql_hitup,[req.params.id],function(err,result_hit,fields){});
+                    res.render('detail',{contents : result[0], check_login : auth, is_owner : is_owner, replys : result_reply, self_seq : req.params.id, description_ : b_content});
+                    console.log(result[0]);
+                }
             }
-
-        }
-
+        });
     });
+});
+
+app.post('/detail/:id', (req,res) => {
+    var auth = authIsOwner(req,res);
+    const reply = req.body.reply;
+    var id = req.params.id;
+
+    const sql = 'INSERT INTO tblreply (r_content_seq,r_writer_seq,r_content,r_created) VALUES';
+    const sqlValue = `("${id}","${req.session.u_seq}","${reply}",NOW());`;
+    if(auth){
+        sb.query(sql+sqlValue,function(err,result,fields){
+            if (err) throw err;
+            console.log(result);
+            res.redirect(`/detail/${id}`);
+        });
+    }
+    else{
+        res.send(`<script>alert('로그인 하셔야 댓글 작성이 가능합니다.');location.href='/detail/${id}';</script>`);
+    }
+});
+
+app.post('/detail/:id', (req,res) => {
+    var auth = authIsOwner(req,res);
+    const reply = req.body.reply;
+    var id = req.params.id;
+
+    const sql = 'INSERT INTO tblreply (r_content_seq,r_writer_seq,r_content,r_created) VALUES';
+    const sqlValue = `("${id}","${req.session.u_seq}","${reply}",NOW());`;
+    if(auth){
+        sb.query(sql+sqlValue,function(err,result,fields){
+            if (err) throw err;
+            console.log(result);
+            res.redirect(`/detail/${id}`);
+        });
+    }
+    else{
+        res.send("<script>alert('로그인 하셔야 댓글 작성이 가능합니다.');location.href='/board';</script>");
+        res.redirect(`/detail/${id}`);
+    }
 });
 
 app.get('/edit/:id', (req,res) => {
@@ -272,7 +345,8 @@ app.get('/edit/:id', (req,res) => {
         if(err) throw err;
         if (auth){
             if (req.session.u_seq == result[0].b_writer_seq){
-                res.render('edit',{contents : result[0], check_login : auth});
+                const b_content = Buffer.from(result[0].b_content, "base64").toString('utf8');
+                res.render('edit',{contents : result[0], check_login : auth, description_ : b_content});
                 console.log(result[0]);
             }else{
                 res.send("<script>alert('본인글만 접근할 수 있습니다.');location.href='/';</script>");

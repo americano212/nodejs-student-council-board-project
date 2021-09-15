@@ -6,21 +6,70 @@
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/index.css" />
     <link rel="stylesheet" href="/css/font.css" />
+
+
+    <link rel="stylesheet" href="/css/owl_carousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/owl_carousel/owl.theme.default.min.css">
     <title>서강대학교 공학부 신문고</title>
     <script
       src="https://kit.fontawesome.com/2d323a629b.js"
       crossorigin="anonymous"
     ></script>
     <script src="/js/mobile_menu.js" defer></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/owl/owl.carousel.min.js"></script>
+    <script src="js/owl/owl.navigation.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var owl = $('.owl-carousel');
+
+            owl.owlCarousel({
+                items:1,                 // 한번에 보여줄 아이템 수
+                loop:true,               // 반복여부
+                margin:35,               // 오른쪽 간격
+                autoplay:true,           // 자동재생 여부
+                autoplayTimeout:3000,    // 재생간격
+                autoplayHoverPause:true,  //마우스오버시 멈출지 여부
+                navText: ['이전', '다음'],
+                dots: true,
+                nav:true
+            });
+
+            $('.customNextBtn').click(function() {
+                owl.trigger('next.owl.carousel');
+            })
+
+            $('.customPrevBtn').click(function() {
+                owl.trigger('prev.owl.carousel', [300]);
+            })
+        });
+    </script>
   </head>
   <body>
      <%- include('header') %>
 
 
-    <div class="ad">
-      <img src="/img/event.jpg" alt="" class="ad">
-    </div>
 
+    <div class="owl-carousel owl-theme">
+        <div class="ad">
+          <img src="/img/event.jpg" alt="" class="ad">
+        </div>
+        <div class="ad">
+          <img src="/img/test1.png" alt="" class="ad">
+        </div>
+        <div class="ad">
+          <img src="/img/event.jpg" alt="" class="ad">
+        </div>
+        <div class="ad">
+          <img src="/img/test2.png" alt="" class="ad">
+        </div>
+        <div class="ad">
+          <img src="/img/event.jpg" alt="" class="ad">
+        </div>
+        <div class="ad">
+          <img src="/img/test3.png" alt="" class="ad">
+        </div>
+    </div>
     <div class="notice1" style="width:230px; float:left;">
       <div class="notice1_">
         학운위 회의록
@@ -44,13 +93,13 @@
         </tr>
       </table>
     </div>
+
     <table>
         <thead>
         <tr>
             <th>제목</th>
             <th>만든날짜</th>
             <th>조회수</th>
-            <th>공감수</th>
         </tr>
         </thead>
         <tbody>
@@ -74,7 +123,6 @@
 
                 <td><%= value.b_created %></td>
                 <td><%= value.b_hit %></td>
-                <td><%= value.b_like %></td>
             </tr>
         <% }); %>
         <tbody>
