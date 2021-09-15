@@ -1,0 +1,16 @@
+.notice_box{
+    background-color: #ffb;
+    margin-top: 3%;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 30px;
+    border-radius: 1em;
+}
+.notice{
+    background-color: #aff;
+    margin-top: 3%;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 30px;
+    border-radius: 1em;
+}

@@ -14,7 +14,7 @@ body {
   margin: 0;
 }
 
-a {
+.navbar a {
   text-decoration: none;
   color: var(--text-color);
 }
@@ -26,7 +26,7 @@ a {
   margin:0px;
 }
 
-.navbar___logo li{
+.navbar .navbar___logo li{
   display:flex;
   font-family:'JeongsogeonhaeL';
   font-size:23px;
@@ -60,11 +60,13 @@ a {
   list-style: none;
 }
 
-.navbar__menu li {
+.navbar .navbar__menu li {
   padding: 8px 40px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
-.navbar__menu li:hover {
+.navbar .navbar__menu li:hover {
   background-color: var(--accent-color);
   border-radius: 4px;
   font-weight:bold;
