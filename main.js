@@ -236,7 +236,12 @@ app.get('/mypage', (req, res) => {
     if (auth){
         sb.query(sql1+sqlValue+sql2,function(err,result,fields){
             if(err) throw err;
-            res.render('mypage',{contents : result, check_login : auth, contents_len: result.length, page : queryData.page});
+            var hit_sum = 0;
+            for (let i = 0; i < result.length; i++) {
+                hit_sum = hit_sum + result[i].b_hit;
+            }
+
+            res.render('mypage',{contents : result, check_login : auth, contents_len: result.length,hit_len : hit_sum, page : queryData.page});
         });
     }else{
         res.send("<script>alert('로그인해야 이용하실 수 있습니다.');location.href='/login';</script>");
