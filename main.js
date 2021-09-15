@@ -44,13 +44,10 @@ sb.connect(function(err){
 app.use(express.static(__dirname+'/public'));
 app.set('view engine', 'ejs');
 app.set('views', './views');
-<<<<<<< HEAD
+
 app.use(bodyParser.urlencoded({ limit:'50mb', extended: true }));
 app.use(bodyParser.json({limit:'50mb'})) // for parsing application/json
-=======
-app.use(bodyParser.urlencoded({ limit: '50mb',extended: true }));
-app.use(bodyParser.json({limit: '50mb'})) // for parsing application/json
->>>>>>> ce7d401ae9f07bc9e1b0b8083628e5517d25fc1c
+
 
 const axios = require("axios");
 axios.default.timeout = 5 * 1000;
