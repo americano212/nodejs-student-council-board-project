@@ -52,12 +52,13 @@
               <input type="submit" id="submit">
           </form>
       </div>
-      <hr>
       <% replys.forEach(function(value){ %>
           <div class="one_reply_box">
               <hr>
               <p><%= value.r_created %></p>
               <p><%= value.r_content %></p>
+
+              <hr>
           </div>
       <% }); %>
     </div>
