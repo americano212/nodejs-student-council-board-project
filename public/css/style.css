@@ -36,7 +36,7 @@ body {
   margin:0px;
 }
 
-.navbar .navbar___logo li{
+.navbar___logo li{
   display:flex;
   font-family:'JeongsogeonhaeL';
   font-size:23px;
@@ -75,21 +75,13 @@ body {
   list-style: none;
 }
 
-<<<<<<< HEAD
-.navbar .navbar__menu li {
-=======
-.navbar__menu_ li {
->>>>>>> 8b9be1a5c8136a85cdf90e109c91e0327385f1d6
+.navbar__ .navbar__menu_ li {
   padding: 8px 40px;
   margin-left: 20px;
   margin-right: 20px;
 }
 
-<<<<<<< HEAD
-.navbar .navbar__menu li:hover {
-=======
-.navbar__menu_ li:hover {
->>>>>>> 8b9be1a5c8136a85cdf90e109c91e0327385f1d6
+.navbar__ .navbar__menu_ li:hover {
   background-color: var(--accent-color);
   border-radius: 4px;
   font-weight:bold;
