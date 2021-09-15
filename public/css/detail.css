@@ -31,6 +31,7 @@
 }
 
 .reply_create_box{
+  display:contents;
   margin-left: 50px;
   margin-right: 50px;
   margin-top: 20px;
@@ -40,4 +41,15 @@
   height: 70px;
   padding: 10px;
   font-size:17px;
+}
+
+#submit{
+  position:relative;
+  height: 70px;
+  margin-left:10px;
+}
+
+.create_reply{
+  color: #8889A4;
+  font-size:13px;
 }

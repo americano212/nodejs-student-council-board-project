@@ -45,20 +45,20 @@
       <br>
       <br>
       <h2>Comments</h2>
-      <hr>
+      <hr color="#8889A4" size="1px">
       <div class="reply_create_box">
           <form method="post">
               <textarea name="reply" id="reply" placeholder="댓글" style="﻿overflow-y:scroll; overflow-x:hidden; resize: none;"></textarea>
               <input type="submit" id="submit">
           </form>
       </div>
+      <hr color="#8889A4" size="1px">
       <% replys.forEach(function(value){ %>
           <div class="one_reply_box">
-              <hr>
-              <p><%= value.r_created %></p>
+              <p class="create_reply"><%= value.r_created %></p>
               <p><%= value.r_content %></p>
 
-              <hr>
+              <hr color="#8889A4" size="1px">
           </div>
       <% }); %>
     </div>
