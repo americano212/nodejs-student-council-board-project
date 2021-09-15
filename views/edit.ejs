@@ -10,7 +10,7 @@
       src="https://kit.fontawesome.com/2d323a629b.js"
       crossorigin="anonymous"
     ></script>
-     <script src="//s3-us-west-1.amazonaws.com/xinha/xinha-latest/XinhaEasy.js"></script>
+     <script src = "/js/ckeditor/ckeditor.js"></script>
     <script src="/js/mobile_menu.js" defer></script>
   </head>
   <body>
@@ -24,7 +24,8 @@
             <option value="3">홍보/제휴</option>
         </select>
         <p>
-            <textarea name="description"><%= contents.b_content%></textarea>
+            <textarea name="description" id = "description" placeholder="내용" style="﻿overflow-y:scroll; overflow-x:hidden; resize: none;"><%= contents.b_content%></textarea>
+            <script>CKEDITOR.replace('editor4');</script>
         </p>
         <p>
             <input type="submit">
