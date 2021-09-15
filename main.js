@@ -20,12 +20,6 @@ var db_config  = require('./config/db-config.json');
 var admin_config  = require('./config/admin-config.json');
 const { smtpTransport } = require('./config/email');
 
-var path = require('path');
-let uuid = require('uuid').v4;
-var multipart = require('connect-multiparty');
-var multipartMiddleware = multipart();
-var multer = require('multer');
-var crypto = require('crypto');
 // database
 const sb = mysql.createConnection({
     host     : db_config.host,

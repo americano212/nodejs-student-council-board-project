@@ -35,7 +35,7 @@ a {
 }
 
 /* Nav container */
-.navbar {
+.navbar__ {
   display: flex;
   justify-content: space-between;
   align-items: center;
