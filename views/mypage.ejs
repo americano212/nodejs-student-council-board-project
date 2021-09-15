@@ -15,9 +15,18 @@
   </head>
   <body>
     <%- include('header') %>
-    <h2 class="free_board">
-      마이페이지
-    </h2>
+    <div class="free_board">
+        <h1>
+          마이페이지
+        </h1>
+        <h3> 익명의 공학부 학우님 반갑습니다~ 학생회에 대한 관심 감사드립니다. </h3>
+        <h3> 내가 쓴 글 : <%= contents_len %> 개 | 내가 받은 조회수 : 총 <%= hit_len %> 개</h3>
+        <br>
+
+        <h2 >
+            내가 쓴 글
+        </h2>
+    </div>
     <div class="table_box">
         <table>
             <thead>

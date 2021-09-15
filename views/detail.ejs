@@ -41,24 +41,26 @@
         <input type="button" value="삭제" class="delete" onClick="location.href='/delete/<%= contents.b_seq %>'">
       <% }else{ %>
       <% } %>
-    </div>
-    <div class="reply_box">
-        <h2>Comments</h2>
-        <hr>
-        <div class="reply_create_box">
-            <form method="post">
-                <textarea name="reply" id="reply" placeholder="댓글"></textarea>
-                <input type="submit" id="submit">
-            </form>
-        </div>
-        <hr>
-        <% replys.forEach(function(value){ %>
-            <div class="one_reply_box">
-                <hr>
-                <p><%= value.r_created %></p>
-                <p><%= value.r_content %></p>
-            </div>
-        <% }); %>
+      <br>
+      <br>
+      <br>
+      <h2>Comments</h2>
+      <hr>
+      <div class="reply_create_box">
+          <form method="post">
+              <textarea name="reply" id="reply" placeholder="댓글" style="﻿overflow-y:scroll; overflow-x:hidden; resize: none;"></textarea>
+              <input type="submit" id="submit">
+          </form>
+      </div>
+      <% replys.forEach(function(value){ %>
+          <div class="one_reply_box">
+              <hr>
+              <p><%= value.r_created %></p>
+              <p><%= value.r_content %></p>
+
+              <hr>
+          </div>
+      <% }); %>
     </div>
 
   </body>

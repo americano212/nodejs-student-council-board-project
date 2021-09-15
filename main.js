@@ -20,6 +20,12 @@ var db_config  = require('./config/db-config.json');
 var admin_config  = require('./config/admin-config.json');
 const { smtpTransport } = require('./config/email');
 
+var path = require('path');
+let uuid = require('uuid').v4;
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
+var multer = require('multer');
+var crypto = require('crypto');
 // database
 const sb = mysql.createConnection({
     host     : db_config.host,
@@ -34,13 +40,17 @@ sb.connect(function(err){
     console.log('Connected DBDB');
 });
 
-
 // setting
 app.use(express.static(__dirname+'/public'));
 app.set('view engine', 'ejs');
 app.set('views', './views');
+<<<<<<< HEAD
 app.use(bodyParser.urlencoded({ limit:'50mb', extended: true }));
 app.use(bodyParser.json({limit:'50mb'})) // for parsing application/json
+=======
+app.use(bodyParser.urlencoded({ limit: '50mb',extended: true }));
+app.use(bodyParser.json({limit: '50mb'})) // for parsing application/json
+>>>>>>> ce7d401ae9f07bc9e1b0b8083628e5517d25fc1c
 
 const axios = require("axios");
 axios.default.timeout = 5 * 1000;
@@ -91,6 +101,7 @@ app.get('/', (req, res) => {
         res.render('index',{contents : result, check_login : auth});
     });
 })
+
 
 app.get('/login', (req, res) => {
     var auth = authIsOwner(req,res);
@@ -160,30 +171,42 @@ var generateRandom = function (min, max) {
 var check_number,sendEmail;
 app.get('/mailsend', (req, res) => {
     console.log("메일 발송 준비");
-    const number = generateRandom(111111,999999);
     sendEmail = req.query.email_addr;
     req.session.email_addr = sendEmail;
-    const mailOptions = {
-        from: "sgu.eng.studentcouncil@gmail.com",
-        to: sendEmail+"@sogang.ac.kr",
-        subject: "[공학부 학생회]인증 관련 이메일 입니다",
-        text: "오른쪽 숫자 6자리를 입력해주세요 : " + number
-    };
-    console.log(mailOptions)
-    const result = smtpTransport.sendMail(mailOptions, (error, responses) => {
-        if (error) {
-            console.log("email fail");
-
-        } else {
-          console.log("email success");
-
+    const sql = "SELECT * from sbuser WHERE u_email = ?";
+    sb.query(sql,[sendEmail],function(err,result,fields){
+        if(err) throw err;
+        console.log(result);
+        if (result[0]!=undefined){
+            res.send("<script>alert('이미 가입된 사용자 입니다. 비밀번호를 분실하셨거나, 본인이 가입하지 않았을시 관리자에게 문의주세요');</script>");
         }
-        smtpTransport.close();
+        else{
+            const number = generateRandom(111111,999999);
+            const mailOptions = {
+                from: "sgu.eng.studentcouncil@gmail.com",
+                to: sendEmail+"@sogang.ac.kr",
+                subject: "[공학부 학생회]인증 관련 이메일 입니다",
+                text: "오른쪽 숫자 6자리를 입력해주세요 : " + number
+            };
+            console.log(mailOptions)
+            const result = smtpTransport.sendMail(mailOptions, (error, responses) => {
+                if (error) {
+                    console.log("email fail");
+
+                } else {
+                  console.log("email success");
+
+                }
+                smtpTransport.close();
+            });
+            let checkemail = new Object();
+            checkemail.number = number;
+            check_number = number;
+            res.send("<script>alert('메일을 전송했습니다.');</script>");
+        }
     });
-    let checkemail = new Object();
-    checkemail.number = number;
-    check_number = number;
-    res.send("<script>alert('메일을 전송했습니다.');</script>");
+
+
 })
 
 app.get('/mailcheck',(req,res) => {
@@ -221,7 +244,12 @@ app.get('/mypage', (req, res) => {
     if (auth){
         sb.query(sql1+sqlValue+sql2,function(err,result,fields){
             if(err) throw err;
-            res.render('mypage',{contents : result, check_login : auth, contents_len: result.length, page : queryData.page});
+            var hit_sum = 0;
+            for (let i = 0; i < result.length; i++) {
+                hit_sum = hit_sum + result[i].b_hit;
+            }
+
+            res.render('mypage',{contents : result, check_login : auth, contents_len: result.length,hit_len : hit_sum, page : queryData.page});
         });
     }else{
         res.send("<script>alert('로그인해야 이용하실 수 있습니다.');location.href='/login';</script>");

@@ -39,21 +39,6 @@
           alert("이메일 인증을 받아주세요.");
         }*/
       }
-      function email_confirm(){
-        /*
-          var email_code = document.getElementById("email_code").value;
-          if(email_flag == 1 && email_confirm_number==email_code)
-          {
-            email_flag = 2;
-          }
-          else if(email_flag==1 && email_confirm_number!=email_code){
-            alert("인증번호를 확인해주세요");
-          }
-          else {
-            alert("인증번호 전송을 눌러주세요");
-          }
-          */
-      }
       $("#email_code").click(function(){
           $.ajax({
               url: '/mailsend',

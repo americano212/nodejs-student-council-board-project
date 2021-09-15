@@ -9,7 +9,7 @@
 
 
     <link rel="stylesheet" href="/css/owl_carousel/owl.carousel.min.css">
-    <link rel="stylesheet" href="/css/owl_carousel/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/css/owl_carousel/owl.theme.default.css">
     <title>서강대학교 공학부 신문고</title>
     <script
       src="https://kit.fontawesome.com/2d323a629b.js"
@@ -26,11 +26,14 @@
             owl.owlCarousel({
                 items:1,                 // 한번에 보여줄 아이템 수
                 loop:true,               // 반복여부
-                margin:35,               // 오른쪽 간격
+                margin:50,               // 오른쪽 간격
                 autoplay:true,           // 자동재생 여부
                 autoplayTimeout:3000,    // 재생간격
                 autoplayHoverPause:true,  //마우스오버시 멈출지 여부
-                navText: ['이전', '다음'],
+                navText: [
+                    "<i class='fa fa-angle-left fa-5x'></i>",
+                    "<i class='fa fa-angle-right fa-5x'></i>"
+                ],
                 dots: true,
                 nav:true
             });
@@ -49,25 +52,26 @@
      <%- include('header') %>
 
 
-
-    <div class="owl-carousel owl-theme">
-        <div class="ad">
-          <img src="/img/event.jpg" alt="" class="ad">
-        </div>
-        <div class="ad">
-          <img src="/img/test1.png" alt="" class="ad">
-        </div>
-        <div class="ad">
-          <img src="/img/event.jpg" alt="" class="ad">
-        </div>
-        <div class="ad">
-          <img src="/img/test2.png" alt="" class="ad">
-        </div>
-        <div class="ad">
-          <img src="/img/event.jpg" alt="" class="ad">
-        </div>
-        <div class="ad">
-          <img src="/img/test3.png" alt="" class="ad">
+     <div class="owl_box">
+        <div class="owl-carousel owl-theme">
+            <div class="ad">
+              <img src="/img/event.jpg" alt="" class="ad">
+            </div>
+            <div class="ad">
+              <img src="/img/test1.png" alt="" class="ad">
+            </div>
+            <div class="ad">
+              <img src="/img/event.jpg" alt="" class="ad">
+            </div>
+            <div class="ad">
+              <img src="/img/test2.png" alt="" class="ad">
+            </div>
+            <div class="ad">
+              <img src="/img/event.jpg" alt="" class="ad">
+            </div>
+            <div class="ad">
+              <img src="/img/test3.png" alt="" class="ad">
+            </div>
         </div>
     </div>
     <div class="notice1" style="width:230px; float:left;">
