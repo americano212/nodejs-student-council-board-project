@@ -104,6 +104,7 @@ a {
 
 .owl-carousel .owl-prev,
 .owl-carousel .owl-next {
+    opacity:0.1;
 	position: absolute;
 	top: 37%;
 	height: 30px;
