@@ -10,11 +10,21 @@
 
 }
 
+a{
+  text-decoration: none;
+  color: var(--text-color);
+}
+
 body {
   margin: 0;
 }
 
-a {
+.navbar___logo a {
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+.navbar__menu_ a{
   text-decoration: none;
   color: var(--text-color);
 }
@@ -32,6 +42,11 @@ a {
   font-size:23px;
   font-weight:bold;
   margin-top:6px;
+}
+
+.navbar__icons a{
+  text-decoration: none;
+  color: var(--text-color);
 }
 
 /* Nav container */
@@ -123,7 +138,7 @@ a {
 /* For small screen */
 @media screen and (max-width: 943px) {
   /* Nav container */
-  .navbar {
+  .navbar__ {
     flex-direction: column;
     align-items: flex-start;
     padding: 8px 24px;
@@ -132,19 +147,19 @@ a {
   }
 
   /* Menu */
-  .navbar__menu {
+  .navbar__menu_ {
     display: none;
     flex-direction: column;
     text-align: center;
     width: 100%;
   }
 
-  .navbar__menu a {
+  .navbar__menu_ a {
     /* Fill in an entire line so that user can click on any space */
     display: block;
     padding: 10px 0;
   }
-  .navbar__logo{
+  .navbar__logo_{
     height:50px;
   }
   .navbar___logo li{
@@ -166,7 +181,7 @@ a {
   }
 
   /* When toggle button is clicked - active state */
-  .navbar__menu.active,
+  .navbar__menu_.active,
   .navbar__icons.active {
     display: flex;
   }
