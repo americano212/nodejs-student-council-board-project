@@ -48,23 +48,23 @@ a {
 
 
 /* Logo with text */
-.navbar__logo {
+.navbar__logo_ {
   font-size: 20px;
   color: var(--text-color);
 }
 
 /* Menu */
-.navbar__menu {
+.navbar__menu_ {
   display: flex;
   padding-left: 0;
   list-style: none;
 }
 
-.navbar__menu li {
+.navbar__menu_ li {
   padding: 8px 40px;
 }
 
-.navbar__menu li:hover {
+.navbar__menu_ li:hover {
   background-color: var(--accent-color);
   border-radius: 4px;
   font-weight:bold;
