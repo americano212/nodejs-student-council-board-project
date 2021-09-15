@@ -163,30 +163,42 @@ var generateRandom = function (min, max) {
 var check_number,sendEmail;
 app.get('/mailsend', (req, res) => {
     console.log("메일 발송 준비");
-    const number = generateRandom(111111,999999);
     sendEmail = req.query.email_addr;
     req.session.email_addr = sendEmail;
-    const mailOptions = {
-        from: "sgu.eng.studentcouncil@gmail.com",
-        to: sendEmail+"@sogang.ac.kr",
-        subject: "[공학부 학생회]인증 관련 이메일 입니다",
-        text: "오른쪽 숫자 6자리를 입력해주세요 : " + number
-    };
-    console.log(mailOptions)
-    const result = smtpTransport.sendMail(mailOptions, (error, responses) => {
-        if (error) {
-            console.log("email fail");
-
-        } else {
-          console.log("email success");
-
+    const sql = "SELECT * from sbuser WHERE u_email = ?";
+    sb.query(sql,[sendEmail],function(err,result,fields){
+        if(err) throw err;
+        console.log(result);
+        if (result[0]!=undefined){
+            res.send("<script>alert('이미 가입된 사용자 입니다. 비밀번호를 분실하셨거나, 본인이 가입하지 않았을시 관리자에게 문의주세요');</script>");
         }
-        smtpTransport.close();
+        else{
+            const number = generateRandom(111111,999999);
+            const mailOptions = {
+                from: "sgu.eng.studentcouncil@gmail.com",
+                to: sendEmail+"@sogang.ac.kr",
+                subject: "[공학부 학생회]인증 관련 이메일 입니다",
+                text: "오른쪽 숫자 6자리를 입력해주세요 : " + number
+            };
+            console.log(mailOptions)
+            const result = smtpTransport.sendMail(mailOptions, (error, responses) => {
+                if (error) {
+                    console.log("email fail");
+
+                } else {
+                  console.log("email success");
+
+                }
+                smtpTransport.close();
+            });
+            let checkemail = new Object();
+            checkemail.number = number;
+            check_number = number;
+            res.send("<script>alert('메일을 전송했습니다.');</script>");
+        }
     });
-    let checkemail = new Object();
-    checkemail.number = number;
-    check_number = number;
-    res.send("<script>alert('메일을 전송했습니다.');</script>");
+
+
 })
 
 app.get('/mailcheck',(req,res) => {
