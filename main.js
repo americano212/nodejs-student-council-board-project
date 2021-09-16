@@ -330,26 +330,36 @@ app.post('/detail/:id', (req,res) => {
     var auth = authIsOwner(req,res);
     const reply = req.body.reply;
     var id = req.params.id;
-
-    const sql = 'INSERT INTO tblreply (r_content_seq,r_writer_seq,r_content,r_created) VALUES';
-    const sqlValue = `("${id}","${req.session.u_seq}","${reply}",NOW());`;
-    if(auth){
-        if(!reply){
-          res.send(`<script>alert('내용을 입력해주세요');location.href='/detail/${id}';</script>`);
+    var r_s = 0;
+    sb.query(`SELECT * from sbuser WHERE u_seq = "${req.session.u_seq}"`,function(err,result,fields){
+        if (err){
+          throw err;
+        }
+        if (result[0].u_status == 7){
+            r_s = 1;
+        }
+        const sql = 'INSERT INTO tblreply (r_content_seq,r_writer_seq,r_content,r_created,r_status) VALUES';
+        const sqlValue = `("${id}","${req.session.u_seq}","${reply}",NOW(),"${r_s}");`;
+        if(auth){
+            if(!reply){
+              res.send(`<script>alert('내용을 입력해주세요');location.href='/detail/${id}';</script>`);
+            }
+            else{
+              sb.query(sql+sqlValue,function(err,result,fields){
+                  if (err){
+                    throw err;
+                  }
+                  console.log(result);
+                  res.redirect(`/detail/${id}`);
+              });
+            }
         }
         else{
-          sb.query(sql+sqlValue,function(err,result,fields){
-              if (err){
-                throw err;
-              }
-              console.log(result);
-              res.redirect(`/detail/${id}`);
-          });
+            res.send(`<script>alert('로그인 하셔야 댓글 작성이 가능합니다.');location.href='/detail/${id}';</script>`);
         }
-    }
-    else{
-        res.send(`<script>alert('로그인 하셔야 댓글 작성이 가능합니다.');location.href='/detail/${id}';</script>`);
-    }
+    });
+
+
 });
 
 /*app.post('/detail/:id', (req,res) => {

@@ -59,12 +59,20 @@
       </div>
       <hr color="#8889A4" size="1px">
       <% replys.forEach(function(value){ %>
-          <div class="one_reply_box">
-              <p class="create_reply"><%= value.r_created %></p>
-              <p style="color:#5E5E72"><%= value.r_content %></p>
-
-              <hr color="#D2D3F2" size="1px">
-          </div>
+          <% if(value.r_status == 1){ %>
+              <div class="one_reply_box">
+                  <p style="color:#5E5E72;font-weight:bold">학생회관리자 답변</p>
+                  <p class="create_reply"><%= value.r_created %></p>
+                  <p style="color:#5E5E72;font-weight:bold"><%= value.r_content %></p>
+                  <hr color="#D2D3F2" size="1px">
+              </div>
+          <% }else{ %>
+              <div class="one_reply_box">
+                  <p class="create_reply"><%= value.r_created %></p>
+                  <p style="color:#5E5E72"><%= value.r_content %></p>
+                  <hr color="#D2D3F2" size="1px">
+              </div>
+          <% } %>
       <% }); %>
     </div>
 
