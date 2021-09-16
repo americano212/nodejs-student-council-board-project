@@ -25,6 +25,7 @@
   display:flex;
   margin-top: 3px;
   margin-bottom:3px;
+  border-width:0px;
 }
 
 .logoo{
@@ -40,6 +41,7 @@
   border-color: #CBE6FA;
   border-radius:10px;
 }
+
 .notice1_{
   align-items:center;
   padding: 15px 15px 15px 15px;
@@ -54,6 +56,42 @@
   margin-top:10px;
   margin-bottom:10px;
 }
+
+.goto_contents{
+  border-collapse: collapse;
+}
+.goto_contents tr,td{
+  padding: 10px;
+  border:1px solid var(--accent-color);
+  border-bottom-width:0px;
+  border-right-width:0px;
+  border-left-width:0px;
+}
+
+.goto_contents_{
+  margin-left:50px;
+  margin-top:30px;
+  display:table;
+  border-style:solid;
+  border-color: #CBE6FA;
+  border-radius:10px;
+}
+
+.goto_contents__{
+  padding: 15px 15px 15px 15px;
+  text-align:center;
+  font-size:25px;
+  background-color: var(--accent-color);
+}
+
+.title{
+  width:60%;
+}
+.date{
+  width:40%;
+  text-align:center;
+}
+
 
 @media screen and (max-width: 943px) {
 

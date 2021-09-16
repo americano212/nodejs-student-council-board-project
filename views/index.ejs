@@ -74,14 +74,44 @@
             </div>
         </div>
     </div>
-    <div class="notice1" style="width:230px; float:left;">
-      <div class="notice1_">
-        학운위 회의록
+
+    <div class="goto_contents_" style="width:50%">
+      <div class="goto_contents__">
+        자유게시판
       </div>
-      <a href="/document/회의록.pdf" class="notice1__"> <img src="/img/pdf.jfif" alt="회의록" width="100px" class="notice1__"> </a>
+      <table width="100%" class="goto_contents">
+          <thead>
+          <tr>
+              <th class="title">제목</th>
+              <th class="date">날짜</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% for(let i = 0; i < Math.min(5,contents.length);i++){ %>
+            <% let value = contents[i]; %>
+              <tr class="contents_tr">
+                  <% if(value.b_status==0){ %>
+                      <td class="title"><a href="/detail/<%= value.b_seq %>">관리자가 아직 승인하지 않은 글입니다.</a></td>
+                  <% }else if(value.b_status==1){ %>
+                      <% if(value.b_type==1){ %>
+                          <td class="title"><a href="/detail/<%= value.b_seq %>">[질문] <%= value.b_title %></a></td>
+                      <% }else if(value.b_type==2){ %>
+                          <td class="title"><a href="/detail/<%= value.b_seq %>">[건의] <%= value.b_title %></a></td>
+                      <% }else if(value.b_type==3){ %>
+                          <td class="title"><a href="/detail/<%= value.b_seq %>">[홍보/제휴] <%= value.b_title %></a></td>
+                      <% }else{ %>
+                          <td class="title"><a href="/detail/<%= value.b_seq %>"> <%= value.b_title %></a></td>
+                      <% } %>
+                  <% }else{ %>
+                      <td></td>
+                  <% } %>
+
+                  <td class="date"><%= value.b_created %></td>
+              </tr>
+          <% }; %>
+          <tbody>
       </table>
     </div>
-
 
     <div class="goto_" style="width:620px; float:left;">
       <div class="goto__">
@@ -97,41 +127,15 @@
         </tr>
       </table>
     </div>
+    <div class="notice1" style="width:230px; float:left;">
+      <div class="notice1_">
+        학운위 회의록
+      </div>
+      <a href="/document/회의록.pdf" class="notice1__"> <img src="/img/pdf.jfif" alt="회의록" width="100px" class="notice1__"> </a>
+      </table>
+    </div>
 
-    <table>
-        <thead>
-        <tr>
-            <th>제목</th>
-            <th>만든날짜</th>
-            <th>조회수</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% for(let i = 0; i < Math.min(5,contents.length);i++){ %>
-          <% let value = contents[i]; %>
-            <tr>
-                <% if(value.b_status==0){ %>
-                    <td><a href="/detail/<%= value.b_seq %>">관리자가 아직 승인하지 않은 글입니다.</a></td>
-                <% }else if(value.b_status==1){ %>
-                    <% if(value.b_type==1){ %>
-                        <td><a href="/detail/<%= value.b_seq %>">[질문] <%= value.b_title %></a></td>
-                    <% }else if(value.b_type==2){ %>
-                        <td><a href="/detail/<%= value.b_seq %>">[건의] <%= value.b_title %></a></td>
-                    <% }else if(value.b_type==3){ %>
-                        <td><a href="/detail/<%= value.b_seq %>">[홍보/제휴] <%= value.b_title %></a></td>
-                    <% }else{ %>
-                        <td><a href="/detail/<%= value.b_seq %>"> <%= value.b_title %></a></td>
-                    <% } %>
-                <% }else{ %>
-                    <td></td>
-                <% } %>
 
-                <td><%= value.b_created %></td>
-                <td><%= value.b_hit %></td>
-            </tr>
-        <% }; %>
-        <tbody>
-    </table>
 
   </body>
 </html>
