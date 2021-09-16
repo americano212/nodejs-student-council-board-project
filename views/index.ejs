@@ -107,7 +107,8 @@
         </tr>
         </thead>
         <tbody>
-        <% contents.forEach(function(value){ %>
+        <% for(let i = 0; i < Math.min(5,contents.length);i++){ %>
+          <% let value = contents[i]; %>
             <tr>
                 <% if(value.b_status==0){ %>
                     <td><a href="/detail/<%= value.b_seq %>">관리자가 아직 승인하지 않은 글입니다.</a></td>
@@ -128,7 +129,7 @@
                 <td><%= value.b_created %></td>
                 <td><%= value.b_hit %></td>
             </tr>
-        <% }); %>
+        <% }; %>
         <tbody>
     </table>
 

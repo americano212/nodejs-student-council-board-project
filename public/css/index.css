@@ -56,6 +56,15 @@
 }
 
 @media screen and (max-width: 943px) {
+
+  .ad{
+    display:none;
+  }
+
+  .owl_box{
+    display:none;
+  }
+
   .goto_{
     display:none;
   }

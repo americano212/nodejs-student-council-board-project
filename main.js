@@ -266,9 +266,17 @@ app.post('/write', (req,res) => {
     const sqlValue = `("${post.title}","${post.text_type}","${descript}",NOW(),"${req.session.u_seq}",0);`;
 
     sb.query(sql+sqlValue,req.body,function(err,result,fields){
-        if (err) throw err;
+      if(!post.title){
+        res.send("<script>alert('제목을 입력해주세요.');location.href='/write';</script>");
+      }
+      else if (err){
+        res.send("<script>alert('텍스트 용량이 너무 커서 게시할 수 없습니다.');location.href='/write';</script>");
+        throw err;
+      }
+      else{
         console.log(result);
         res.redirect('/board');
+      }
     });
 });
 
@@ -382,13 +390,21 @@ app.post('/edit/:id', (req,res) => {
   const post = req.body;
   var type = post.text_type;
   var id = req.params.id;
-
+  const descript = Buffer.from(post.description, "utf8").toString('base64');
   const sql = 'UPDATE tblboard SET b_title=?, b_type=?, b_content=? WHERE b_seq=?';
 
-  sb.query(sql,[post.title,type,post.description, id],function(err,result,fields){
-      if (err) throw err;
-      console.log(result);
-      res.redirect('/board');
+  sb.query(sql,[post.title,type,descript, id],function(err,result,fields){
+      if(!post.title){
+        res.send("<script>alert('제목을 입력해주세요');location.href='/write';</script>");
+      }
+      if (err){
+        res.send("<script>alert('텍스트 용량이 너무 커서 게시할 수 없습니다.');location.href='/write';</script>");
+        throw err;
+      }
+      else{
+        console.log(result);
+        res.redirect('/board');
+      }
   });
 });
 

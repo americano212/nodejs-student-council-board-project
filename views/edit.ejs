@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/font.css" />
+    <link rel="stylesheet" href="/css/edit.css" />
     <title>서강대학교 공학부 신문고</title>
     <script
       src="https://kit.fontawesome.com/2d323a629b.js"
@@ -25,28 +26,31 @@
   </head>
   <body>
     <%- include('header') %>
-    <form method="post">
-        <p><input type="text" name="title" value = "<%= contents.b_title%>"></p>
-        <select name="text_type" value = "<%= contents.b_type%>">
-            <option value="0">선택안함</option>
-            <option value="1">질문</option>
-            <option value="2">건의</option>
-            <option value="3">홍보/제휴</option>
-        </select>
-        <p>
-            <textarea name="description" id="summernote"><%- description_ %></textarea>
-            <script>
-              $('#summernote').summernote({
-                  height: 400,                 // set editor height
-                  minHeight: null,             // set minimum height of editor
-                  maxHeight: null,             // set maximum height of editor
-                  focus: true                  // set focus to editable area after initializing summernote
-              });
-            </script>
-        </p>
-        <p>
-            <input type="submit">
-        </p>
-    </form>
+
+    <div class="edit_">
+      <form method="post">
+          <p><input type="text" name="title" id="title" value = "<%= contents.b_title%>"></p>
+          <select name="text_type" id="text_type" value = "<%= contents.b_type%>">
+              <option value="0">선택안함</option>
+              <option value="1">질문</option>
+              <option value="2">건의</option>
+              <option value="3">홍보/제휴</option>
+          </select>
+          <p>
+              <textarea name="description" id="summernote"><%- description_ %></textarea>
+              <script>
+                $('#summernote').summernote({
+                    height: 400,                 // set editor height
+                    minHeight: null,             // set minimum height of editor
+                    maxHeight: null,             // set maximum height of editor
+                    focus: true                  // set focus to editable area after initializing summernote
+                });
+              </script>
+          </p>
+          <p>
+              <input type="submit" id="submit">
+          </p>
+      </form>
+    </div>
   </body>
 </html>
