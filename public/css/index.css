@@ -140,11 +140,14 @@
 }
 
 @media screen and (max-width: 943px) {
-  .owl_box{
-    display:none;
-  }
-
-
+    .owl-nav {
+        display:none;
+    }
+    .owl_box{
+        margin-top: 50px;
+        margin-right: 1%;
+        margin-left: 3%;
+    }
   .goto_{
     display:none;
   }
