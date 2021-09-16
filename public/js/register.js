@@ -76,7 +76,6 @@ router.post('/', (req, res, next) => {
     // 비밀번호를 암호화 한다.(bcrypt에서 지원하는 hashSync라는 함수로 암호화)
     pw = bcrypt.hashSync(pw);
     if (authIsEmail(req,res)){
-
         // db에 저장하는 기능
         let sql = { name,id_number,major, pw,email_addr };
         var check_email = authIsEmail(req,res);

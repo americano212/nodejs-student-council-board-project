@@ -16,28 +16,34 @@
       var email_flag = 0;
       var email_confirm_number =0;
       function submit_register(){
-        var id_n = document.getElementById("id_number");
-        var name = document.getElementById("name");
-        var pwd = document.getElementById("pw");
-        var pwd_2 =document.getElementById("pw_confirm");
-        /*if(!id_n){
-          alert("학번을 입력해주세요.");
-        }
-        else if(id_n.length <=7){
-          alert("학번을 다시한번 확인해주세요.");
-        }
-        else if(!name){
-          alert("이름을 입력해주세요.");
-        }
-        else if(!pwd){
-          alert("비밀번호를 입력해주세요.");
-        }
-        else if(pwd!==pwd_2){
-          alert("비밀번호가 불일치합니다.");
-        }*/
-        /*else if(email_flag<2){
-          alert("이메일 인증을 받아주세요.");
-        }*/
+          if (!form.name.value){
+              alert("이름을 입력해주세요.");
+              return false;
+          }
+          else if (form.id_number.value==""){
+              alert("학번을 입력해주세요.");
+              return false;
+          }
+          else if (form.id_number.value==""){
+              alert("학번을 입력해주세요.");
+              return false;
+          }
+          else if(form.major.value==""){
+              alert("전공을 입력해주세요.");
+              return false;
+          }
+          else if(form.pw.value==""){
+              alert("비밀번호를 입력해주세요.");
+              return false;
+          }
+          else if(form.pw_confirm.value==""){
+              alert("비밀번호를 다시한번 입력해주세요.");
+              return false;
+          }
+          else if(form.pw_confirm.value!=form.pw.value ){
+              alert("두 비밀번호를 똑같이 입력해주세요.");
+              return false;
+          }
       }
       $("#email_code").click(function(){
           $.ajax({
@@ -93,7 +99,7 @@
           <input id="email_code_confirm" type="submit" value="인증번호 확인" onclick="email_confirm()"><br>
       </form>
       <iframe id="iframe1" name="iframe1" style="display:none"></iframe>
-      <form class="register" action="/register"  method="POST">
+      <form name="form" class="register" action="/register"  method="POST" onsubmit="return submit_register()">
         <input id="name" name="name" type="text" autocomplete="off" placeholder="이름"><br>
         <input id="id_number" name="id_number" type="number" autocomplete="off" placeholder="학번"><br>
         <p>
@@ -106,10 +112,10 @@
 
         </p>
         <input id="pw" type="password" name="pw" autocomplete="off" placeholder="비밀번호"><br>
-        <input id="pw_confirm" type="password" autocomplete="off" placeholder="비밀번호 확인"><br>
+        <input id="pw_confirm" name="pw_confirm" type="password" autocomplete="off" placeholder="비밀번호 확인"><br>
 
 
-        <input id="register_submit" type="submit" value="가입하기" onclick="submit_register()">
+        <input id="register_submit" type="submit" value="가입하기">
       </form>
     </div>
   </body>
