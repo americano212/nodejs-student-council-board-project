@@ -13,6 +13,7 @@
 
 .text_{
   margin-top:30px;
+  margin-bottom:30px;
 }
 
 .reply_create_box{
@@ -28,6 +29,10 @@
   height: 100px;
   padding: 10px;
   font-size:17px;
+  border-color:#8889A4;
+}
+#reply:hover{
+  border-color:#000000;
 }
 
 #submit{
@@ -43,10 +48,31 @@
   font-weight:bold;
 }
 
+.linee{
+  margin-bottom:20px;
+}
+
 .create_reply{
-  color: #8889A4;
+  color: #A3A3BA;
   font-size:13px;
 }
+.editor{
+  float:right;
+  margin-right:30px;
+}
+.editor input{
+  background-color: #D1D3E8;
+  border-width:0px;
+  height:30px;
+  width:55px;
+}
+
+.editor input:hover{
+  background-color: #C8C9DC;
+  font-weight:bold;
+}
+
+
 
 /* For small screen */
 @media screen and (max-width: 943px) {
@@ -78,4 +104,12 @@
     font-size:12px;
   }
 
+  .editor{
+    margin-right:10px;
+  }
+  .editor input{
+    height:25px;
+    width:50px;
+    font-size:12px;
+  }
 }

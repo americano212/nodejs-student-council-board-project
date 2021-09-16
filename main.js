@@ -334,18 +334,25 @@ app.post('/detail/:id', (req,res) => {
     const sql = 'INSERT INTO tblreply (r_content_seq,r_writer_seq,r_content,r_created) VALUES';
     const sqlValue = `("${id}","${req.session.u_seq}","${reply}",NOW());`;
     if(auth){
-        sb.query(sql+sqlValue,function(err,result,fields){
-            if (err) throw err;
-            console.log(result);
-            res.redirect(`/detail/${id}`);
-        });
+        if(!reply){
+          res.send(`<script>alert('내용을 입력해주세요');location.href='/detail/${id}';</script>`);
+        }
+        else{
+          sb.query(sql+sqlValue,function(err,result,fields){
+              if (err){
+                throw err;
+              }
+              console.log(result);
+              res.redirect(`/detail/${id}`);
+          });
+        }
     }
     else{
         res.send(`<script>alert('로그인 하셔야 댓글 작성이 가능합니다.');location.href='/detail/${id}';</script>`);
     }
 });
 
-app.post('/detail/:id', (req,res) => {
+/*app.post('/detail/:id', (req,res) => {
     var auth = authIsOwner(req,res);
     const reply = req.body.reply;
     var id = req.params.id;
@@ -363,7 +370,7 @@ app.post('/detail/:id', (req,res) => {
         res.send("<script>alert('로그인 하셔야 댓글 작성이 가능합니다.');location.href='/board';</script>");
         res.redirect(`/detail/${id}`);
     }
-});
+});*/
 
 app.get('/edit/:id', (req,res) => {
     var auth = authIsOwner(req,res);

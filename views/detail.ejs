@@ -28,19 +28,24 @@
           <% } %>
           <%= contents.b_title %>
         </h2>
-        <span class="hit" style="color:#8889A4">
-          <%= contents.b_created %>&nbsp|&nbsp조회수&nbsp<%= contents.b_hit %>
-        </span>
+        <div class="linee">
+          <span class="hit" style="color:#8889A4">
+            <%= contents.b_created %>&nbsp|&nbsp조회수&nbsp<%= contents.b_hit %>
+          </span>
+          <% if(is_owner){ %>
+            <div class="editor">
+              <input type="button" value="수정" class="edit" onClick="location.href='/edit/<%= contents.b_seq %>'">
+              <input type="button" value="삭제" class="delete" onClick="location.href='/delete/<%= contents.b_seq %>'">
+            </div>
+          <% }else{ %>
+          <% } %>
+        </div>
+
       </div>
       <hr color="#8889A4" size="1px">
       <div class="text_">
         <%- description_ %>
       </div>
-      <% if(is_owner){ %>
-        <input type="button" value="수정" class="edit" onClick="location.href='/edit/<%= contents.b_seq %>'">
-        <input type="button" value="삭제" class="delete" onClick="location.href='/delete/<%= contents.b_seq %>'">
-      <% }else{ %>
-      <% } %>
       <br>
       <br>
       <br>
@@ -56,9 +61,9 @@
       <% replys.forEach(function(value){ %>
           <div class="one_reply_box">
               <p class="create_reply"><%= value.r_created %></p>
-              <p><%= value.r_content %></p>
+              <p style="color:#5E5E72"><%= value.r_content %></p>
 
-              <hr color="#8889A4" size="1px">
+              <hr color="#D2D3F2" size="1px">
           </div>
       <% }); %>
     </div>
