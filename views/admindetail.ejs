@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/font.css" />
+    <link rel="stylesheet" href="/css/admindetail.css" />
     <title>서강대학교 공학부 신문고</title>
     <script
       src="https://kit.fontawesome.com/2d323a629b.js"
@@ -13,24 +14,38 @@
     <script src="/js/mobile_menu.js" defer></script>
   </head>
   <body>
-    <table>
-        <tr>
-            <th>제목</th>
-            <th>만든날짜</th>
-            <th>조회수</th>
-        </tr>
-        <tr>
-            <td><%= contents.b_title %></td>
-            <td><%= contents.b_created %></td>
-            <td><%= contents.b_hit %></td>
-        </tr>
-    </table>
-    <div class="main_content">
-        <%= contents.b_content %>
+
+    <div class="content">
+      <div class="title">
+        <h2>
+          <% if(contents.b_type==1){ %>
+              [질문]&nbsp
+          <% }else if(contents.b_type==2){ %>
+              [건의]&nbsp
+          <% }else if(contents.b_type==3){ %>
+              [홍보/제휴]&nbsp
+          <% } %>
+          <%= contents.b_title %>
+        </h2>
+        <div class="linee">
+          <span class="hit" style="color:#8889A4">
+            <%= contents.b_created %>&nbsp|&nbsp조회수&nbsp<%= contents.b_hit %>
+          </span>
+          <div class="editor">
+            <input type="button" value="공개" onClick="location.href='/open/<%= contents.b_seq %>'">
+            <input type="button" value="비공개" onClick="location.href='/unopen/<%= contents.b_seq %>'">
+            <input type="button" value="삭제" onClick="location.href='/delete/<%= contents.b_seq %>'">
+          </div>
+        </div>
+
+      </div>
+      <hr color="#8889A4" size="1px">
+      <div class="text_">
+        <%- description_ %>
+      </div>
+      <br>
+      <br>
     </div>
-    <input type="button" value="공개" onClick="location.href='/open/<%= contents.b_seq %>'">
-    <input type="button" value="비공개" onClick="location.href='/unopen/<%= contents.b_seq %>'">
-    <input type="button" value="삭제" onClick="location.href='/delete/<%= contents.b_seq %>'">
 
 
   </body>

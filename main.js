@@ -469,11 +469,12 @@ app.get('/adminpage', (req,res) => {
 
 app.get('/admindetail/:id', (req,res) => {
     const sql = "SELECT * FROM tblboard WHERE b_seq = ?";
+
     if (req.session.is_admin){
         sb.query(sql,[req.params.id],function(err,result,fields){
             if(err) throw err;
-
-            res.render('admindetail',{contents : result[0]});
+            const description_ = Buffer.from(result[0].b_content, "base64").toString('utf8');
+            res.render('admindetail',{contents : result[0], description_ : description_});
             console.log(result[0]);
         });
     }else{
