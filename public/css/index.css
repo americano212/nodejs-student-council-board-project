@@ -7,16 +7,16 @@
 
 
 .goto_{
-  margin-left:50px;
-  margin-top:30px;
   display:table;
   border-style:solid;
   border-color: #CBE6FA;
   border-radius:10px;
+  align-items:center;
 }
 .goto__{
   padding: 15px 15px 15px 15px;
   text-align:center;
+
   font-size:25px;
   background-color: var(--accent-color);
 }
@@ -32,10 +32,24 @@
   margin: 10px 10px 10px 10px;
 }
 
+.major_logo{
+  width:500px;
+  height:100%;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+
+
+}
+
+.content{
+  position:absolute;
+  width:90%;
+  left: 50%;
+  transform: translateX(-50%);
+}
 
 .notice1{
-  margin-left:50px;
-  margin-top:30px;
   display:table;
   border-style:solid;
   border-color: #CBE6FA;
@@ -50,17 +64,25 @@
   background-color: var(--accent-color);
 }
 
-.notice1__{
-  margin-right: 30px;
-  margin-left:30px;
-  margin-top:10px;
-  margin-bottom:10px;
+.notice1_content{
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+   margin-top:20px; margin-bottom:20px;
 }
 
 .goto_contents{
   border-collapse: collapse;
+  width:100%;
 }
-.goto_contents tr,td{
+.goto_contents tr{
+  padding: 10px;
+  border:1px solid var(--accent-color);
+  border-bottom-width:0px;
+  border-right-width:0px;
+  border-left-width:0px;
+}
+.goto_contents td{
   padding: 10px;
   border:1px solid var(--accent-color);
   border-bottom-width:0px;
@@ -68,8 +90,8 @@
   border-left-width:0px;
 }
 
+
 .goto_contents_{
-  margin-left:50px;
   margin-top:30px;
   display:table;
   border-style:solid;
@@ -85,23 +107,43 @@
 }
 
 .title{
-  width:60%;
+  width:70%;
 }
 .date{
-  width:40%;
+  width:30%;
   text-align:center;
 }
 
 
-@media screen and (max-width: 943px) {
 
-  .ad{
-    display:none;
+.content td{
+  padding: 20px 20px 20px 20px;
+  border-collapse: collapse;
+}
+
+@media screen and (max-width: 1240px) {
+  .notice1_{
+    padding-left:0px;
+    padding-right:0px;
+  }
+  .content td{
+    padding: 10px 10px 10px 10px;
+  }
+  .notice1_content{
+    margin-bottom:10px;
+    margin-top:10px;
+  }
+  .content{
+    width:100%;
   }
 
+}
+
+@media screen and (max-width: 943px) {
   .owl_box{
     display:none;
   }
+
 
   .goto_{
     display:none;
@@ -109,4 +151,6 @@
   .notice1{
     display:none;
   }
+
+
 }
