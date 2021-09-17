@@ -5,3 +5,14 @@
     <br>
     이메일 : <span id="copybtn" onclick="copyToClipboard('sgu.eng.studentcouncil@gmail.com');">sgu.eng.studentcouncil@gmail.com</span> (누르면 복사)
 </div>
+<script>
+    function copyToClipboard(val) {
+        var t = document.createElement("textarea");
+        document.body.appendChild(t);
+        t.value = val;
+        t.select();
+        document.execCommand('copy');
+        document.body.removeChild(t);
+        alert('메일주소가 클립보드에 복사되었습니다.');
+    }
+</script>
