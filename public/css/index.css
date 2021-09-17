@@ -43,10 +43,11 @@
 }
 
 .content{
-  position:absolute;
+  position:relative;
   width:90%;
   left: 50%;
   transform: translateX(-50%);
+  margin-bottom: 5%;
 }
 
 .notice1{

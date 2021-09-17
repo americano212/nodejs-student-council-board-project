@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/index.css" />
     <link rel="stylesheet" href="/css/font.css" />
-
+    <link rel="stylesheet" href="/css/footer.css" />
 
     <link rel="stylesheet" href="/css/owl_carousel/owl.carousel.min.css">
     <link rel="stylesheet" href="/css/owl_carousel/owl.theme.default.css">
@@ -46,112 +46,128 @@
                 owl.trigger('prev.owl.carousel', [300]);
             })
         });
+        function copyToClipboard(val) {
+            var t = document.createElement("textarea");
+            document.body.appendChild(t);
+            t.value = val;
+            t.select();
+            document.execCommand('copy');
+            document.body.removeChild(t);
+            alert('메일주소가 클립보드에 복사되었습니다.');
+        }
     </script>
   </head>
   <body>
-     <%- include('header') %>
+      <div class="wrapper">
+
+          <%- include('header') %>
+          <div class="main-content">
+              <div class="owl_box">
+                 <div class="owl-carousel owl-theme">
+                     <div class="ad">
+                       <img src="/img/event.jpg" alt="" class="ad">
+                     </div>
+                     <div class="ad">
+                       <img src="/img/test1.png" alt="" class="ad">
+                     </div>
+                     <div class="ad">
+                       <img src="/img/event.jpg" alt="" class="ad">
+                     </div>
+                     <div class="ad">
+                       <img src="/img/test2.png" alt="" class="ad">
+                     </div>
+                     <div class="ad">
+                       <img src="/img/event.jpg" alt="" class="ad">
+                     </div>
+                     <div class="ad">
+                       <img src="/img/test3.png" alt="" class="ad">
+                     </div>
+                 </div>
+             </div>
 
 
-     <div class="owl_box">
-        <div class="owl-carousel owl-theme">
-            <div class="ad">
-              <img src="/img/event.jpg" alt="" class="ad">
-            </div>
-            <div class="ad">
-              <img src="/img/test1.png" alt="" class="ad">
-            </div>
-            <div class="ad">
-              <img src="/img/event.jpg" alt="" class="ad">
-            </div>
-            <div class="ad">
-              <img src="/img/test2.png" alt="" class="ad">
-            </div>
-            <div class="ad">
-              <img src="/img/event.jpg" alt="" class="ad">
-            </div>
-            <div class="ad">
-              <img src="/img/test3.png" alt="" class="ad">
-            </div>
-        </div>
-    </div>
+             <table class ="content">
+               <tr>
+                 <td colspan="2">
+                   <div class="goto_contents_" style="width:100%">
+                     <div class="goto_contents__">
+                       자유게시판
+                     </div>
+                     <table class="goto_contents">
+                         <thead>
+                         <tr>
+                             <th class="title">제목</th>
+                             <th class="date">날짜</th>
+                         </tr>
+                         </thead>
+                         <tbody>
+                         <% for(let i = 0; i < Math.min(5,contents.length);i++){ %>
+                           <% let value = contents[i]; %>
+                             <tr class="contents_tr">
+                                 <% if(value.b_status==0){ %>
+                                     <td class="title"><a href="/detail/<%= value.b_seq %>">관리자가 아직 승인하지 않은 글입니다.</a></td>
+                                 <% }else if(value.b_status==1){ %>
+                                     <% if(value.b_type==1){ %>
+                                         <td class="title"><a href="/detail/<%= value.b_seq %>">[질문] <%= value.b_title %></a></td>
+                                     <% }else if(value.b_type==2){ %>
+                                         <td class="title"><a href="/detail/<%= value.b_seq %>">[건의] <%= value.b_title %></a></td>
+                                     <% }else if(value.b_type==3){ %>
+                                         <td class="title"><a href="/detail/<%= value.b_seq %>">[홍보/제휴] <%= value.b_title %></a></td>
+                                     <% }else{ %>
+                                         <td class="title"><a href="/detail/<%= value.b_seq %>"> <%= value.b_title %></a></td>
+                                     <% } %>
+                                 <% }else{ %>
+                                     <td></td>
+                                 <% } %>
 
+                                 <td class="date"><%= value.b_created %></td>
+                             </tr>
+                         <% }; %>
+                         <tbody>
+                     </table>
+                   </div>
 
-    <table class ="content">
-      <tr>
-        <td colspan="2">
-          <div class="goto_contents_" style="width:100%">
-            <div class="goto_contents__">
-              자유게시판
-            </div>
-            <table class="goto_contents">
-                <thead>
-                <tr>
-                    <th class="title">제목</th>
-                    <th class="date">날짜</th>
-                </tr>
-                </thead>
-                <tbody>
-                <% for(let i = 0; i < Math.min(5,contents.length);i++){ %>
-                  <% let value = contents[i]; %>
-                    <tr class="contents_tr">
-                        <% if(value.b_status==0){ %>
-                            <td class="title"><a href="/detail/<%= value.b_seq %>">관리자가 아직 승인하지 않은 글입니다.</a></td>
-                        <% }else if(value.b_status==1){ %>
-                            <% if(value.b_type==1){ %>
-                                <td class="title"><a href="/detail/<%= value.b_seq %>">[질문] <%= value.b_title %></a></td>
-                            <% }else if(value.b_type==2){ %>
-                                <td class="title"><a href="/detail/<%= value.b_seq %>">[건의] <%= value.b_title %></a></td>
-                            <% }else if(value.b_type==3){ %>
-                                <td class="title"><a href="/detail/<%= value.b_seq %>">[홍보/제휴] <%= value.b_title %></a></td>
-                            <% }else{ %>
-                                <td class="title"><a href="/detail/<%= value.b_seq %>"> <%= value.b_title %></a></td>
-                            <% } %>
-                        <% }else{ %>
-                            <td></td>
-                        <% } %>
+                 </td>
+               </tr>
+               <tr>
+                 <td>
+                   <div class="goto_" style="width:100%;">
+                     <div class="goto__">
+                       홈페이지 바로가기
+                     </div>
+                     <table class="major_logo">
+                       <tr>
+                         <td> <a href="https://eng.sogang.ac.kr/eng/index_new.html" class="logoo"> <img src="/img/logo.png" alt="공학부" width="100px"></a> </td>
+                         <td> <a href="http://me.sogang.ac.kr/v2/index.php"  class="logoo"> <img src="/img/기계 로고.jpg" alt="기계공학과" width="100px"></a> </td>
+                         <td> <a href="http://chemeng.sogang.ac.kr/kor/index.php"  class="logoo"> <img src="/img/화공 로고.jpg" alt="화공생명공학과" width="100px"></a> </td>
+                         <td> <a href="https://ee.sogang.ac.kr/kor/main/"  class="logoo"> <img src="/img/전자 로고.jpg" alt="전자공학과" width="100px"></a> </td>
+                         <td> <a href="https://cs.sogang.ac.kr/cs/index_new.html"  class="logoo"> <img src="/img/컴공 로고.jpg" alt="컴퓨터공학과" width="100px"></a> </td>
+                       </tr>
+                     </table>
+                   </div>
 
-                        <td class="date"><%= value.b_created %></td>
-                    </tr>
-                <% }; %>
-                <tbody>
-            </table>
+                 </td>
+                 <td>
+                   <div class="notice1" style="width:100%;">
+                     <div class="notice1_">
+                       학운위 회의록
+                     </div>
+                     <div class="notice1_content" style="width:125px;">
+                       <a href="/document/회의록.pdf" class="notice1__"> <img src="/img/pdf.jfif" alt="회의록" width="125px" class="notice1__"> </a>
+                       </table>
+                     </div>
+
+                   </div>
+
+                 </td>
+               </tr>
+             </table>
           </div>
 
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <div class="goto_" style="width:100%;">
-            <div class="goto__">
-              홈페이지 바로가기
-            </div>
-            <table class="major_logo">
-              <tr>
-                <td> <a href="https://eng.sogang.ac.kr/eng/index_new.html" class="logoo"> <img src="/img/logo.png" alt="공학부" width="100px"></a> </td>
-                <td> <a href="http://me.sogang.ac.kr/v2/index.php"  class="logoo"> <img src="/img/기계 로고.jpg" alt="기계공학과" width="100px"></a> </td>
-                <td> <a href="http://chemeng.sogang.ac.kr/kor/index.php"  class="logoo"> <img src="/img/화공 로고.jpg" alt="화공생명공학과" width="100px"></a> </td>
-                <td> <a href="https://ee.sogang.ac.kr/kor/main/"  class="logoo"> <img src="/img/전자 로고.jpg" alt="전자공학과" width="100px"></a> </td>
-                <td> <a href="https://cs.sogang.ac.kr/cs/index_new.html"  class="logoo"> <img src="/img/컴공 로고.jpg" alt="컴퓨터공학과" width="100px"></a> </td>
-              </tr>
-            </table>
-          </div>
 
-        </td>
-        <td>
-          <div class="notice1" style="width:100%;">
-            <div class="notice1_">
-              학운위 회의록
-            </div>
-            <div class="notice1_content" style="width:125px;">
-              <a href="/document/회의록.pdf" class="notice1__"> <img src="/img/pdf.jfif" alt="회의록" width="125px" class="notice1__"> </a>
-              </table>
-            </div>
 
-          </div>
-
-        </td>
-      </tr>
-    </table>
+         <%- include('footer') %>
+      </div>
 
 
   </body>
