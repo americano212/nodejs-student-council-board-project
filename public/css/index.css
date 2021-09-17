@@ -4,7 +4,9 @@
   --accent-color: #CBE6FA;
 }
 
-
+.box_text{
+    font-weight: bold;
+}
 
 .goto_{
   display:table;
