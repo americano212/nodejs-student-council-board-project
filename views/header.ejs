@@ -9,20 +9,20 @@
   </div>
   <!-- Menu -->
   <ul class="navbar__menu_">
-    <li><a href="/notice">공지사항 & 이벤트</a></li>
-    <li><a href="/write">글쓰기</a></li>
-    <li><a href="/board">자유게시판</a></li>
-    <li><a href="/mypage">마이페이지</a></li>
+    <li><a href="/notice" class="menu_">공지사항 & 이벤트</a></li>
+    <li><a href="/write" class="menu_">글쓰기</a></li>
+    <li><a href="/board" class="menu_">자유게시판</a></li>
+    <li><a href="/mypage" class="menu_">마이페이지</a></li>
   </ul>
   <!-- Icons -->
   <% if(check_login){ %>
       <ul class="navbar__icons">
-        <li><a href="/logout">로그아웃</a></li>
+        <li><a href="/logout" class="menu_">로그아웃</a></li>
       </ul>
   <% }else{ %>
       <ul class="navbar__icons">
-        <li><a href="/login">로그인</a></li>
-        <li><a href="/register">회원가입</a></li>
+        <li><a href="/login" class="menu_">로그인</a></li>
+        <li><a href="/register" class="menu_">회원가입</a></li>
       </ul>
   <% } %>
 
