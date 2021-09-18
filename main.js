@@ -174,7 +174,7 @@ app.get('/mailsend', (req, res) => {
         else{
             const number = generateRandom(111111,999999);
             const mailOptions = {
-                from: "sgu.eng.studentcouncil@gmail.com",
+                from: "sg_harang@naver.com",
                 to: sendEmail+"@sogang.ac.kr",
                 subject: "[공학부 학생회]인증 관련 이메일 입니다",
                 text: "오른쪽 숫자 6자리를 입력해주세요 : " + number
