@@ -142,31 +142,6 @@ body {
 }
 
 
-.owl_box{
-    margin-top: 50px;
-    margin-right: 5%;
-    margin-left: 5%;
-}
-
-.owl-carousel .owl-prev,
-.owl-carousel .owl-next {
-    opacity:0.1;
-	position: absolute;
-	top: 37%;
-	height: 30px;
-}
-
-.owl-carousel .owl-prev {
-	right: 96%;
-}
-
-.owl-carousel .owl-next {
-	right: 1%;
-}
-.owl_box img{
-    object-fit: contain;
-}
-
 
 
 
