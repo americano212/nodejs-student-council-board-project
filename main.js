@@ -9,7 +9,6 @@ var path = require('path');
 const ejs = require('ejs');
 const bodyParser = require('body-parser');
 let bcrypt = require('bcrypt-nodejs');
-var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 // 로그인 상태를 유지하기 위해 express-session을 사용하였습니다
@@ -19,6 +18,9 @@ var requestIp = require('request-ip');
 var db_config  = require('./config/db-config.json');
 var admin_config  = require('./config/admin-config.json');
 const { smtpTransport } = require('./config/email');
+
+const favicon = require('serve-favicon');
+app.use(favicon(path.join(__dirname,'public','img','favicon.ico')));
 
 // database
 const sb = mysql.createConnection({
@@ -47,7 +49,6 @@ const axios = require("axios");
 axios.default.timeout = 5 * 1000;
 process.on("uncaughtException", function(err) { console.error("uncaughtException (Node is alive)", err); });
 
-app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
