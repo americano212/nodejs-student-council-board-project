@@ -1,17 +1,20 @@
 .notice_box{
-    background-color: #ffb;
+    background-color: #F3EAF3;
     margin-top: 3%;
-    margin-left: 5%;
-    margin-right: 5%;
+    margin-left: 15%;
+    margin-right: 15%;
     padding: 30px;
     border-radius: 1em;
     margin-bottom: 80px;
 }
 .notice{
-    background-color: #aff;
+    background-color: #fff;
     margin-top: 3%;
     margin-left: 5%;
     margin-right: 5%;
     padding: 30px;
     border-radius: 1em;
+}
+.notice_box img{
+    width: 100%;
 }

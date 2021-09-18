@@ -154,6 +154,10 @@ app.get('/logout',(req,res) => {
 var registerRouter = require('./public/js/register');
 app.use('/register', registerRouter);
 
+var noticeRouter = require('./public/js/notice');
+app.use('/notice', noticeRouter);
+
+
 var generateRandom = function (min, max) {
     var ranNum = Math.floor(Math.random()*(max-min+1)) + min;
     return ranNum;
