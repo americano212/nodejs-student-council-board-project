@@ -66,6 +66,10 @@ body {
 .navbar__logo_ {
   font-size: 20px;
   color: var(--text-color);
+  block-size: 62.6875px;
+  font-family: "Malgun Gothic";
+  text-size-adjust: auto;
+  line-height:normal;
 }
 
 /* Menu */
@@ -73,6 +77,12 @@ body {
   display: flex;
   padding-left: 0;
   list-style: none;
+  margin-top :0px;
+  margin-bottom:0px;
+  font-size:16px;
+  color: #00000;
+  font-family:"Malgun Gothic";
+  line-height:normal;
 }
 
 .navbar__ .navbar__menu_ li {
@@ -91,6 +101,9 @@ body {
   color: var(--text-color);
   display: flex;
   padding-left: 0;
+  margin-bottom:16px;
+  margin-top:16px;
+  font-family:"Malgun Gothic";
 }
 .navbar__icons li:hover {
   background-color: var(--accent-color);
@@ -111,7 +124,23 @@ body {
   margin-top:5px;
   font-size: 30px;
   color: var(--accent-color);
+  font-family:"Malgun Gothic";
+  line-height:normal;
 }
+
+.navbar__toggleBtn:hover, .navbar__toggleBtn:focus{
+  color:var(--accent-color);
+  text-decoration: none;
+}
+.menu_:hover, .menu_:focus{
+  color:#000000;
+  text-decoration: none;
+}
+.sogang:hover, .sogang:focus{
+  color:#000000;
+  text-decoration: none;
+}
+
 
 .owl_box{
     margin-top: 50px;
@@ -137,6 +166,9 @@ body {
 .owl_box img{
     object-fit: contain;
 }
+
+
+
 
 @media screen and (max-width: 1100px){
   .navbar__ .navbar__menu_ li {
