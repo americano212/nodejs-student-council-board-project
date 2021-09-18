@@ -61,8 +61,8 @@
       <% replys.forEach(function(value){ %>
           <% if(value.r_status == 1){ %>
               <div class="one_reply_box">
-                  <p style="color:#5E5E72;font-weight:bold">학생회관리자 답변</p>
-                  <p class="create_reply"><%= value.r_created %></p>
+                  <span class="create_reply"><%= value.r_created %> </span>
+                  <span style="color:#5E5E72;font-weight:bold;font-size:12px;"> 관리자</span>
                   <p style="color:#5E5E72;font-weight:bold"><%= value.r_content %></p>
                   <hr color="#D2D3F2" size="1px">
               </div>
