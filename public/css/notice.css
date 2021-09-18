@@ -24,9 +24,16 @@
         margin-top: 3%;
         margin-left: 5%;
         margin-right: 5%;
-        padding: 30px;
+        padding: 5px;
         border-radius: 1em;
         margin-bottom: 80px;
     }
-
+    .notice{
+        background-color: #fff;
+        margin-top: 3%;
+        margin-left: 3%;
+        margin-right: 3%;
+        padding: 30px;
+        border-radius: 1em;
+    }
 }
