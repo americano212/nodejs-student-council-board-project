@@ -182,7 +182,7 @@ app.get('/mailsend', (req, res) => {
             console.log(mailOptions)
             const result = smtpTransport.sendMail(mailOptions, (error, responses) => {
                 if (error) {
-                    console.log("email fail");
+                    console.log("email fail"+error);
 
                 } else {
                   console.log("email success");
