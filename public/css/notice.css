@@ -18,3 +18,15 @@
 .notice_box img{
     width: 100%;
 }
+@media screen and (max-width: 943px) {
+    .notice_box{
+        background-color: #F3EAF3;
+        margin-top: 3%;
+        margin-left: 5%;
+        margin-right: 5%;
+        padding: 30px;
+        border-radius: 1em;
+        margin-bottom: 80px;
+    }
+
+}
