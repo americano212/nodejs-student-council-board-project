@@ -95,7 +95,7 @@
 
 
 .goto_contents_{
-  margin-top:30px;
+  margin-top:20px;
   display:table;
   border-style:solid;
   border-color: #CBE6FA;
@@ -151,8 +151,10 @@
     object-fit: contain;
 }
 
-.owl-dots{
+.owl-dot{
   margin-top:10px;
+  margin-left: 5px;
+  margin-right:5px;
 }
 
 @media screen and (max-width: 1240px) {
@@ -198,8 +200,12 @@
   .notice1{
     display:none;
   }
-
-
+  .goto_contents_{
+    margin-top:10px;
   }
 
+  .owl-dot{
+    margin-right:1px;
+    margin-left:1px;
+  }
 }
