@@ -365,9 +365,11 @@ app.post('/detail/:id', (req,res) => {
         }
     });
 
-
 });
 
+/*app.get('/sitemap',(req,res) => {
+    res.render('sitemap.xml');
+});*/
 /*app.post('/detail/:id', (req,res) => {
     var auth = authIsOwner(req,res);
     const reply = req.body.reply;
