@@ -340,12 +340,13 @@ app.post('/detail/:id', (req,res) => {
         if (err){
           throw err;
         }
-        if (result[0].u_status == 7){
-            r_s = 1;
-        }
+
         const sql = 'INSERT INTO tblreply (r_content_seq,r_writer_seq,r_content,r_created,r_status) VALUES';
         const sqlValue = `("${id}","${req.session.u_seq}","${reply}",NOW(),"${r_s}");`;
         if(auth){
+            if (result[0].u_status == 7){
+                r_s = 1;
+            }
             if(!reply){
               res.send(`<script>alert('내용을 입력해주세요');location.href='/detail/${id}';</script>`);
             }
