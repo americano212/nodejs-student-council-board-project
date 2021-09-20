@@ -90,7 +90,7 @@ app.get('/', (req, res) => {
     console.log(req.session);
     logger.log('info',req.session);
     var auth = authIsOwner(req,res);
-    const sql = "SELECT b_seq,b_title,b_created,b_hit,b_like,b_type,b_status FROM tblboard WHERE b_status IN(1) ORDER BY b_seq DESC limit 5";
+    const sql = "SELECT b_seq,b_title,b_created,b_hit,b_like,b_type,b_status FROM tblboard2 WHERE b_status IN(1) ORDER BY b_seq DESC limit 5";
     console.log(requestIp.getClientIp(req));
     logger.log('info',requestIp.getClientIp(req));
     sb.query(sql,function(err,result,fields){
@@ -258,7 +258,7 @@ app.get('/mypage', (req, res) => {
     if(!queryData.page){
       queryData.page = 1;
     }
-    const sql1 = "SELECT b_seq,b_title,b_created,b_hit,b_like,b_type FROM tblboard WHERE b_status NOT IN(4) AND b_writer_seq = ";
+    const sql1 = "SELECT b_seq,b_title,b_created,b_hit,b_like,b_type FROM tblboard2 WHERE b_status NOT IN(4) AND b_writer_seq = ";
     const sqlValue = `"${req.session.u_seq}"`;
     const sql2 = " ORDER BY b_seq DESC";
     if (auth){
@@ -297,7 +297,7 @@ app.post('/write', (req,res) => {
     const post = req.body;
     const desc = post.description;
     const descript = Buffer.from(desc, "utf8").toString('base64');
-    const sql = 'INSERT INTO tblboard (b_title,b_type,b_content,b_created,b_writer_seq,b_status) VALUES';
+    const sql = 'INSERT INTO tblboard2 (b_title,b_type,b_content,b_created,b_writer_seq,b_status) VALUES';
     const sqlValue = `("${post.title}","${post.text_type}","${descript}",NOW(),"${req.session.u_seq}",0);`;
 
     sb.query(sql+sqlValue,req.body,function(err,result,fields){
@@ -325,7 +325,7 @@ app.get('/board', (req, res) => {
     if(!queryData.page){
       queryData.page = 1;
     }
-    const sql = "SELECT b_seq,b_title,b_created,b_hit,b_like,b_type,b_status FROM tblboard WHERE b_status NOT IN(4) ORDER BY b_seq DESC";
+    const sql = "SELECT b_seq,b_title,b_created,b_hit,b_like,b_type,b_status FROM tblboard2 WHERE b_status NOT IN(4) ORDER BY b_seq DESC";
     sb.query(sql,function(err,result,fields){
         if(err){
             logger.log('errer',"ERR Board : "+err);
@@ -338,9 +338,9 @@ app.get('/board', (req, res) => {
 
 app.get('/detail/:id', (req,res) => {
     var auth = authIsOwner(req,res);
-    const sql = "SELECT * FROM tblboard WHERE b_seq = ?";
+    const sql = "SELECT * FROM tblboard2 WHERE b_seq = ?";
     const sql_reply = "SELECT * FROM tblreply WHERE r_content_seq = ?";
-    const sql_hitup = "UPDATE tblboard SET b_hit = b_hit + 1 WHERE b_seq = ?";
+    const sql_hitup = "UPDATE tblboard2 SET b_hit = b_hit + 1 WHERE b_seq = ?";
     sb.query(sql,[req.params.id],function(err,result,fields){
         sb.query(sql_reply,[req.params.id],function(err,result_reply,fields){
             if(err){
@@ -442,7 +442,7 @@ app.post('/detail/:id', (req,res) => {
 
 app.get('/edit/:id', (req,res) => {
     var auth = authIsOwner(req,res);
-    const sql = "SELECT * FROM tblboard WHERE b_seq = ?";
+    const sql = "SELECT * FROM tblboard2 WHERE b_seq = ?";
     sb.query(sql,[req.params.id],function(err,result,fields){
         if(err){
             logger.log('error','ERR Edit : '+err);
@@ -472,7 +472,7 @@ app.post('/edit/:id', (req,res) => {
   var type = post.text_type;
   var id = req.params.id;
   const descript = Buffer.from(post.description, "utf8").toString('base64');
-  const sql = 'UPDATE tblboard SET b_title=?, b_type=?, b_content=? WHERE b_seq=?';
+  const sql = 'UPDATE tblboard2 SET b_title=?, b_type=?, b_content=? WHERE b_seq=?';
 
   sb.query(sql,[post.title,type,descript, id],function(err,result,fields){
       if(!post.title){
@@ -495,8 +495,8 @@ app.post('/edit/:id', (req,res) => {
 app.get('/delete/:id', (req,res) => {
 
     var auth = authIsOwner(req,res);
-    const sql = "UPDATE tblboard SET b_status = 4 WHERE b_seq = ?;";
-    const sql1 = "SELECT * FROM tblboard WHERE b_seq = ?";
+    const sql = "UPDATE tblboard2 SET b_status = 4 WHERE b_seq = ?;";
+    const sql1 = "SELECT * FROM tblboard2 WHERE b_seq = ?";
     sb.query(sql1,[req.params.id],function(err,result1,fields){
         if (auth || req.session.is_admin){
             if (req.session.u_seq == result1[0].b_writer_seq || req.session.is_admin){
@@ -544,7 +544,7 @@ app.get('/adminpage', (req,res) => {
     if (req.session.is_admin){
         console.log('adminpage 페이지 접속하였습니다.');
 
-        const sql = "SELECT * FROM tblboard ORDER BY b_seq DESC";
+        const sql = "SELECT * FROM tblboard2 ORDER BY b_seq DESC";
         sb.query(sql,function(err,result,fields){
             if(err){
                 logger.log('crit','Admin Page : '+ err);
@@ -560,7 +560,7 @@ app.get('/adminpage', (req,res) => {
 });
 
 app.get('/admindetail/:id', (req,res) => {
-    const sql = "SELECT * FROM tblboard WHERE b_seq = ?";
+    const sql = "SELECT * FROM tblboard2 WHERE b_seq = ?";
 
     if (req.session.is_admin){
         sb.query(sql,[req.params.id],function(err,result,fields){
@@ -579,7 +579,7 @@ app.get('/admindetail/:id', (req,res) => {
     }
 });
 app.get('/open/:id', (req,res) => {
-    const sql = "UPDATE tblboard SET b_status = 1 WHERE b_seq = ?;";
+    const sql = "UPDATE tblboard2 SET b_status = 1 WHERE b_seq = ?;";
     if (req.session.is_admin){
         sb.query(sql,[req.params.id],function(err,result,fields){
             if(err){
@@ -596,7 +596,7 @@ app.get('/open/:id', (req,res) => {
 });
 
 app.get('/unopen/:id', (req,res) => {
-    const sql = "UPDATE tblboard SET b_status = 0 WHERE b_seq = ?;";
+    const sql = "UPDATE tblboard2 SET b_status = 0 WHERE b_seq = ?;";
     if (req.session.is_admin){
         sb.query(sql,[req.params.id],function(err,result,fields){
             if(err){
