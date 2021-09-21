@@ -300,22 +300,26 @@ app.post('/write', (req,res) => {
     const sql = 'INSERT INTO tblboard2 (b_title,b_type,b_content,b_created,b_writer_seq,b_status) VALUES';
     const sqlValue = `("${post.title}","${post.text_type}","${descript}",NOW(),"${req.session.u_seq}",0);`;
 
-    sb.query(sql+sqlValue,req.body,function(err,result,fields){
-      if(!post.title){
-          logger.log('errer',"ERR Write (no title)");
-          res.send("<script>alert('제목을 입력해주세요.');location.href='/write';</script>");
-      }
-      else if (err){
-          logger.log('errer',"ERR Write (large capacity)");
-          res.send("<script>alert('텍스트 용량이 너무 커서 게시할 수 없습니다.');location.href='/write';</script>");
-          throw err;
-      }
-      else{
-          console.log(result);
-          logger.log('info','200 make new writing');
-          res.redirect('/board');
-      }
-    });
+
+    if(!post.title){
+        logger.log('errer',"ERR Write (no title)");
+        res.send("<script>alert('제목을 입력해주세요.');location.href='/write';</script>");
+    }
+    else{
+      sb.query(sql+sqlValue,req.body,function(err,result,fields){
+
+        if (err){
+            logger.log('errer',"ERR Write (large capacity)");
+            res.send("<script>alert('텍스트 용량이 너무 커서 게시할 수 없습니다.');location.href='/write';</script>");
+            throw err;
+        }
+        else{
+            console.log(result);
+            logger.log('info','200 make new writing');
+            res.redirect('/board');
+        }
+      });
+    }
 });
 
 app.get('/board', (req, res) => {
@@ -473,23 +477,24 @@ app.post('/edit/:id', (req,res) => {
   var id = req.params.id;
   const descript = Buffer.from(post.description, "utf8").toString('base64');
   const sql = 'UPDATE tblboard2 SET b_title=?, b_type=?, b_content=? WHERE b_seq=?';
-
-  sb.query(sql,[post.title,type,descript, id],function(err,result,fields){
-      if(!post.title){
-          logger.log('error','ERR Edit (no title)');
-          res.send("<script>alert('제목을 입력해주세요');location.href='/write';</script>");
-      }
-      if (err){
-          logger.log('error','ERR Edit (large capacity) : '+ err);
-          res.send("<script>alert('텍스트 용량이 너무 커서 게시할 수 없습니다.');location.href='/write';</script>");
-          throw err;
-      }
-      else{
-        console.log(result);
-        logger.log('info','200 Edit success');
-        res.redirect('/board');
-      }
-  });
+  if(!post.title){
+      logger.log('error','ERR Edit (no title)');
+      res.send("<script>alert('제목을 입력해주세요');location.href='/edit/:id';</script>");
+  }
+  else{
+    sb.query(sql,[post.title,type,descript, id],function(err,result,fields){
+        if (err){
+            logger.log('error','ERR Edit (large capacity) : '+ err);
+            res.send("<script>alert('텍스트 용량이 너무 커서 게시할 수 없습니다.');location.href='/edit/:id';</script>");
+            throw err;
+        }
+        else{
+          console.log(result);
+          logger.log('info','200 Edit success');
+          res.redirect('/board');
+        }
+    });
+  }
 });
 
 app.get('/delete/:id', (req,res) => {
